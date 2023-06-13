@@ -15,5 +15,6 @@ namespace ISOGES_PM_API.Entities
         public string Telefono { get; set; }
         public int TipoUsuario { get; set; }
         public bool Estado { get; set; }
+        public string Contrasena { get; set; }
     }
 }
