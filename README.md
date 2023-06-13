@@ -1,2 +1,0 @@
-# ISOGES_PM_API
-API for ISOGES_PM
