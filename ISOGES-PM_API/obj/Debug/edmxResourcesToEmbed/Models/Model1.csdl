@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ISOGES_PMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="IdCliente" />
+    </Key>
+    <Property Name="IdCliente" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Identificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Cliente" FromRole="Cliente" ToRole="Proyecto" />
+  </EntityType>
+  <EntityType Name="Cobro">
+    <Key>
+      <PropertyRef Name="IdCobro" />
+    </Key>
+    <Property Name="IdCobro" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TipoCobro" Type="Int32" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EstadoCobro" Type="Boolean" Nullable="false" />
+    <Property Name="Monto" Type="Double" Nullable="false" />
+    <Property Name="IdProyecto" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Proyecto" Relationship="Self.FK_Cobro_Proyecto" FromRole="Cobro" ToRole="Proyecto" />
+    <NavigationProperty Name="TipoCobro1" Relationship="Self.FK_Cobro_TipoCobro" FromRole="Cobro" ToRole="TipoCobro" />
+    <NavigationProperty Name="Proyecto1" Relationship="Self.Cobro_Proyecto" FromRole="Cobro" ToRole="Proyecto" />
+  </EntityType>
+  <EntityType Name="Proyecto">
+    <Key>
+      <PropertyRef Name="IdProyecto" />
+    </Key>
+    <Property Name="IdProyecto" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Cliente" Type="Int64" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="MontoEstimado" Type="Double" />
+    <NavigationProperty Name="Cliente1" Relationship="Self.FK_Proyecto_Cliente" FromRole="Proyecto" ToRole="Cliente" />
+    <NavigationProperty Name="Cobro" Relationship="Self.FK_Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
+    <NavigationProperty Name="Cobro1" Relationship="Self.Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
+    <NavigationProperty Name="Requerimiento" Relationship="Self.Requerimiento_Proyecto" FromRole="Proyecto" ToRole="Requerimiento" />
+  </EntityType>
+  <EntityType Name="Requerimiento">
+    <Key>
+      <PropertyRef Name="IdRequerimiento" />
+    </Key>
+    <Property Name="IdRequerimiento" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="FechaConclusion" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EmpleadoAsignado" Type="Int64" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_Requerimiento_Usuario" FromRole="Requerimiento" ToRole="Usuario" />
+    <NavigationProperty Name="Proyecto" Relationship="Self.Requerimiento_Proyecto" FromRole="Requerimiento" ToRole="Proyecto" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TipoCobro">
+    <Key>
+      <PropertyRef Name="IdTipoCobro" />
+    </Key>
+    <Property Name="IdTipoCobro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TipoCobro1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Cobro" Relationship="Self.FK_Cobro_TipoCobro" FromRole="TipoCobro" ToRole="Cobro" />
+  </EntityType>
+  <EntityType Name="TipoUsuario">
+    <Key>
+      <PropertyRef Name="IdTipoUsuario" />
+    </Key>
+    <Property Name="IdTipoUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TipoUsuario1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_TipoUsuario" FromRole="TipoUsuario" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Apellido1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Apellido2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Identificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TipoUsuario" Type="Int32" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="Contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Requerimiento" Relationship="Self.FK_Requerimiento_Usuario" FromRole="Usuario" ToRole="Requerimiento" />
+    <NavigationProperty Name="TipoUsuario1" Relationship="Self.FK_Usuario_TipoUsuario" FromRole="Usuario" ToRole="TipoUsuario" />
+  </EntityType>
+  <Association Name="FK_Proyecto_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="IdCliente" />
+      </Principal>
+      <Dependent Role="Proyecto">
+        <PropertyRef Name="Cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cobro_Proyecto">
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+    <End Role="Cobro" Type="Self.Cobro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proyecto">
+        <PropertyRef Name="IdProyecto" />
+      </Principal>
+      <Dependent Role="Cobro">
+        <PropertyRef Name="IdProyecto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cobro_TipoCobro">
+    <End Role="TipoCobro" Type="Self.TipoCobro" Multiplicity="1" />
+    <End Role="Cobro" Type="Self.Cobro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoCobro">
+        <PropertyRef Name="IdTipoCobro" />
+      </Principal>
+      <Dependent Role="Cobro">
+        <PropertyRef Name="TipoCobro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Requerimiento_Usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Requerimiento" Type="Self.Requerimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="Requerimiento">
+        <PropertyRef Name="EmpleadoAsignado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuario_TipoUsuario">
+    <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoUsuario">
+        <PropertyRef Name="IdTipoUsuario" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="TipoUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Cobro_Proyecto">
+    <End Role="Cobro" Type="Self.Cobro" Multiplicity="*" />
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+  </Association>
+  <Association Name="Requerimiento_Proyecto">
+    <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+    <End Role="Requerimiento" Type="Self.Requerimiento" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="ISOGES_PMEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+    <EntitySet Name="Cobro" EntityType="Self.Cobro" />
+    <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
+    <EntitySet Name="Requerimiento" EntityType="Self.Requerimiento" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="TipoCobro" EntityType="Self.TipoCobro" />
+    <EntitySet Name="TipoUsuario" EntityType="Self.TipoUsuario" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <AssociationSet Name="FK_Proyecto_Cliente" Association="Self.FK_Proyecto_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Proyecto" EntitySet="Proyecto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cobro_Proyecto" Association="Self.FK_Cobro_Proyecto">
+      <End Role="Proyecto" EntitySet="Proyecto" />
+      <End Role="Cobro" EntitySet="Cobro" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cobro_TipoCobro" Association="Self.FK_Cobro_TipoCobro">
+      <End Role="TipoCobro" EntitySet="TipoCobro" />
+      <End Role="Cobro" EntitySet="Cobro" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Requerimiento_Usuario" Association="Self.FK_Requerimiento_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Requerimiento" EntitySet="Requerimiento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuario_TipoUsuario" Association="Self.FK_Usuario_TipoUsuario">
+      <End Role="TipoUsuario" EntitySet="TipoUsuario" />
+      <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+    <AssociationSet Name="Cobro_Proyecto" Association="Self.Cobro_Proyecto">
+      <End Role="Cobro" EntitySet="Cobro" />
+      <End Role="Proyecto" EntitySet="Proyecto" />
+    </AssociationSet>
+    <AssociationSet Name="Requerimiento_Proyecto" Association="Self.Requerimiento_Proyecto">
+      <End Role="Proyecto" EntitySet="Proyecto" />
+      <End Role="Requerimiento" EntitySet="Requerimiento" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

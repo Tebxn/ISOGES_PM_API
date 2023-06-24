@@ -24,6 +24,7 @@
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="EstadoCobro" Type="bit" Nullable="false" />
           <Property Name="Monto" Type="float" Nullable="false" />
+          <Property Name="IdProyecto" Type="bigint" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ISOGES_PM.dbo.Cobro_Proyecto' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -107,6 +108,18 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="Contrasena" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Cobro_Proyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="Cobro" Type="Self.Cobro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="Cobro">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cobro_Proyecto_Cobro">
           <End Role="Cobro" Type="Self.Cobro" Multiplicity="1" />
           <End Role="Cobro_Proyecto" Type="Self.Cobro_Proyecto" Multiplicity="*" />
@@ -224,6 +237,10 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
     [Requerimiento_Proyecto].[IdRequerimiento] AS [IdRequerimiento]
     FROM [dbo].[Requerimiento_Proyecto] AS [Requerimiento_Proyecto]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_Cobro_Proyecto" Association="Self.FK_Cobro_Proyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="Cobro" EntitySet="Cobro" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cobro_Proyecto_Cobro" Association="Self.FK_Cobro_Proyecto_Cobro">
             <End Role="Cobro" EntitySet="Cobro" />
             <End Role="Cobro_Proyecto" EntitySet="Cobro_Proyecto" />
@@ -282,8 +299,10 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EstadoCobro" Type="Boolean" Nullable="false" />
           <Property Name="Monto" Type="Double" Nullable="false" />
+          <Property Name="IdProyecto" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Cobro_Proyecto" FromRole="Cobro" ToRole="Proyecto" />
           <NavigationProperty Name="TipoCobro1" Relationship="Self.FK_Cobro_TipoCobro" FromRole="Cobro" ToRole="TipoCobro" />
-          <NavigationProperty Name="Proyecto" Relationship="Self.Cobro_Proyecto" FromRole="Cobro" ToRole="Proyecto" />
+          <NavigationProperty Name="Proyecto1" Relationship="Self.Cobro_Proyecto" FromRole="Cobro" ToRole="Proyecto" />
         </EntityType>
         <EntityType Name="Proyecto">
           <Key>
@@ -296,7 +315,8 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="MontoEstimado" Type="Double" />
           <NavigationProperty Name="Cliente1" Relationship="Self.FK_Proyecto_Cliente" FromRole="Proyecto" ToRole="Cliente" />
-          <NavigationProperty Name="Cobro" Relationship="Self.Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
+          <NavigationProperty Name="Cobro" Relationship="Self.FK_Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
+          <NavigationProperty Name="Cobro1" Relationship="Self.Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
           <NavigationProperty Name="Requerimiento" Relationship="Self.Requerimiento_Proyecto" FromRole="Proyecto" ToRole="Requerimiento" />
         </EntityType>
         <EntityType Name="Requerimiento">
@@ -368,6 +388,18 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Cobro_Proyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="Cobro" Type="Self.Cobro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="Cobro">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cobro_TipoCobro">
           <End Role="TipoCobro" Type="Self.TipoCobro" Multiplicity="1" />
           <End Role="Cobro" Type="Self.Cobro" Multiplicity="*" />
@@ -425,6 +457,10 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Proyecto" EntitySet="Proyecto" />
           </AssociationSet>
+          <AssociationSet Name="FK_Cobro_Proyecto" Association="Self.FK_Cobro_Proyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="Cobro" EntitySet="Cobro" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cobro_TipoCobro" Association="Self.FK_Cobro_TipoCobro">
             <End Role="TipoCobro" EntitySet="TipoCobro" />
             <End Role="Cobro" EntitySet="Cobro" />
@@ -471,6 +507,7 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="EstadoCobro" ColumnName="EstadoCobro" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

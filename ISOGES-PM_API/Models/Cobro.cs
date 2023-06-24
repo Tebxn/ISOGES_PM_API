@@ -17,7 +17,7 @@ namespace ISOGES_PM_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cobro()
         {
-            this.Proyecto = new HashSet<Proyecto>();
+            this.Proyecto1 = new HashSet<Proyecto>();
         }
     
         public long IdCobro { get; set; }
@@ -25,9 +25,11 @@ namespace ISOGES_PM_API.Models
         public System.DateTime Fecha { get; set; }
         public bool EstadoCobro { get; set; }
         public double Monto { get; set; }
+        public long IdProyecto { get; set; }
     
+        public virtual Proyecto Proyecto { get; set; }
         public virtual TipoCobro TipoCobro1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyecto> Proyecto { get; set; }
+        public virtual ICollection<Proyecto> Proyecto1 { get; set; }
     }
 }
