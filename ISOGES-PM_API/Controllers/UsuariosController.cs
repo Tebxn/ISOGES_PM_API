@@ -88,8 +88,20 @@ namespace ISOGES_PM_API.Controllers
             using (var bd = new ISOGES_PMEntities())
             {
                 var datos = (from x in bd.Usuario
-                             where x.Estado == true
-                             select x).ToList();
+                             join y in bd.TipoUsuario on x.TipoUsuario equals y.IdTipoUsuario
+                             select new {
+                                 x.IdUsuario,
+                                 x.Nombre,
+                                 x.Apellido1,
+                                 x.Apellido2,
+                                 x.Identificacion,
+                                 x.CorreoElectronico,
+                                 x.Telefono,
+                                 x.TipoUsuario,
+                                 y.NombreTipo,
+                                 x.Estado,
+                                 x.Puesto
+                             }).ToList();
 
                 if (datos.Count > 0)
                 {
@@ -98,12 +110,18 @@ namespace ISOGES_PM_API.Controllers
                     {
                         resp.Add(new UsuarioEnt
                         {
-                            CorreoElectronico = item.CorreoElectronico,
-                            Nombre = item.Nombre,
-                            Identificacion = item.Identificacion,
-                            Estado = item.Estado,
-                            TipoUsuario = (int)item.TipoUsuario
-                        });
+                        IdUsuario = item.IdUsuario,
+                        Nombre = item.Nombre,
+                        Apellido1 = item.Apellido1,
+                        Apellido2 = item.Apellido2,
+                        Identificacion = item.Identificacion,
+                        CorreoElectronico = item.CorreoElectronico,
+                        Telefono = item.Telefono,
+                        TipoUsuario = item.TipoUsuario,
+                        NombreTipoUsuario = item.NombreTipo,
+                        Estado = item.Estado,
+                        Puesto = item.Puesto
+                    });
                     }
                     return resp;
                 }
