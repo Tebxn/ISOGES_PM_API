@@ -30,6 +30,8 @@ namespace ISOGES_PM_API.Models
         public int TipoUsuario { get; set; }
         public bool Estado { get; set; }
         public string Contrasena { get; set; }
+        public Nullable<bool> PassIsTemp { get; set; }
+        public string Puesto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Requerimiento> Requerimiento { get; set; }

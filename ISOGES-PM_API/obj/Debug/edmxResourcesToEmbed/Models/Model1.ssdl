@@ -86,7 +86,7 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
       <PropertyRef Name="IdTipoUsuario" />
     </Key>
     <Property Name="IdTipoUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TipoUsuario" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="NombreTipo" Type="varchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <EntityType Name="Usuario">
     <Key>
@@ -102,6 +102,8 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
     <Property Name="TipoUsuario" Type="int" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Contrasena" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PassIsTemp" Type="bit" />
+    <Property Name="Puesto" Type="varchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_Cobro_Proyecto">
     <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />

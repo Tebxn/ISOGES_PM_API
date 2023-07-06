@@ -72,7 +72,7 @@
       <EntityTypeMapping TypeName="ISOGES_PMModel.TipoUsuario">
         <MappingFragment StoreEntitySet="TipoUsuario">
           <ScalarProperty Name="IdTipoUsuario" ColumnName="IdTipoUsuario" />
-          <ScalarProperty Name="TipoUsuario1" ColumnName="TipoUsuario" />
+          <ScalarProperty Name="NombreTipo" ColumnName="NombreTipo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -89,6 +89,8 @@
           <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+          <ScalarProperty Name="PassIsTemp" ColumnName="PassIsTemp" />
+          <ScalarProperty Name="Puesto" ColumnName="Puesto" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

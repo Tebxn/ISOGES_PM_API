@@ -21,7 +21,7 @@ namespace ISOGES_PM_API.Models
         }
     
         public int IdTipoUsuario { get; set; }
-        public string TipoUsuario1 { get; set; }
+        public string NombreTipo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Usuario> Usuario { get; set; }

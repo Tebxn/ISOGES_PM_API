@@ -1,15 +1,15 @@
-﻿using System;
+﻿using ISOGES_PM_API.Models.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace ISOGES_PM_API.Entities
 {
-    public class Respuesta
+    public class CobroResponse : Response
     {
-        public string Mensaje { get; set; }
-        public CobroEnt CobroUnico { get; set; } = new CobroEnt();
-        public List<CobroEnt> ListaCobros { get; set; } = new List<CobroEnt>();
+        public CobroEnt ObjectSingle { get; set; } = new CobroEnt();
+        public List<CobroEnt> ObjectList { get; set; } = new List<CobroEnt>();
     }
 
     public class CobroEnt

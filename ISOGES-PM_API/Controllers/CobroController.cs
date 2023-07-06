@@ -13,41 +13,52 @@ namespace ISOGES_PM_API.Controllers
     {
         [HttpGet]
         [Route("api/ConsultarCobros")]
-        public List<CobroEnt> ConsultarCobros(CobroEnt entidad)
+        public CobroResponse ConsultarCobros()
         {
-            using (var bd = new ISOGES_PMEntities())
+            CobroResponse APIresponse = new CobroResponse();
+            try
             {
-                var datos = (from x in bd.Cobro
-                             where x.IdProyecto == entidad.IdProyecto
-                             select x).ToList();
+                using (var bd = new ISOGES_PMEntities())
+                {
+                    var datos = (from x in bd.Cobro
+                                 select x).ToList();
 
-                if (datos.Count > 0)
-                {
-                    var resp = new List<CobroEnt>();
-                    foreach (var item in datos)
+                    if (datos.Count > 0)
                     {
-                        resp.Add(new CobroEnt
+                        var lista = new List<CobroEnt>();
+                        foreach (var item in datos)
                         {
-                            TipoCobro = item.TipoCobro,
-                            Fecha = item.Fecha,
-                            Monto = item.Monto,
-                            IdProyecto = item.IdProyecto
-                        });
+                            lista.Add(new CobroEnt
+                            {
+                                TipoCobro = item.TipoCobro,
+                                Fecha = item.Fecha,
+                                Monto = item.Monto,
+                                IdProyecto = item.IdProyecto
+                            });
+                        }
+
+                        APIresponse.ObjectList = lista;
+                        return APIresponse;
                     }
-                    return resp;
+                    else
+                    {
+                        APIresponse.ReturnMessage = "No existen datos por mostrar";
+                        return APIresponse;
+                    }
                 }
-                else
-                {
-                    return new List<CobroEnt>();
-                }
+            }
+            catch (Exception ex)
+            {
+                APIresponse.ReturnMessage = ex.Message;
+                return APIresponse;
             }
         }
 
         [HttpGet]
         [Route("api/ConsultarCobroPorId")]
-        public Respuesta ConsultarCobroPorId(long id)
+        public CobroResponse ConsultarCobroPorId(long id)
         {
-            Respuesta resultado = new Respuesta();
+            CobroResponse APIresponse = new CobroResponse();
             try
             {
                 using (var bd = new ISOGES_PMEntities())
@@ -58,7 +69,7 @@ namespace ISOGES_PM_API.Controllers
 
                     if (datos != null)
                     {
-                        CobroEnt cobro = new CobroEnt
+                        CobroEnt cobroEncontrado = new CobroEnt
                         {
                             TipoCobro = datos.TipoCobro,
                             Fecha = datos.Fecha,
@@ -68,22 +79,38 @@ namespace ISOGES_PM_API.Controllers
                         };
 
 
-                        resultado.CobroUnico = cobro;
-                        return resultado;
+                        APIresponse.ObjectSingle = cobroEncontrado;
+                        return APIresponse;
                     }
                     else
                     {
-                        resultado.Mensaje = "No se ha encontrado un cobro con el id ingresado";
-                        return resultado;
+                        APIresponse.ReturnMessage = "No se ha encontrado un cobro con el id ingresado";
+                        return APIresponse;
                     }
                 }
             }
             catch (Exception ex)
             {
-                resultado.Mensaje = ex.Message;
-                return resultado;
+                APIresponse.ReturnMessage = ex.Message;
+                return APIresponse;
             }
         }
+
+        //[HttpPut]
+        //[Route("api/EditarCobro")]
+        //public CobroResponse EditarCobro(CobroEnt entity)
+        //{
+        //    CobroResponse APIresponse = new CobroResponse();
+        //    try
+        //    {
+        //        //code
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        APIresponse.ReturnMessage = ex.Message;
+        //        return APIresponse;
+        //    }
+        //}
     }
 }
 

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using ISOGES_PM_API.Models.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace ISOGES_PM_API.Entities
 {
-    public class UserEnt //Empleado
+    public class UsuarioEnt //Empleado
     {
+        public long IdUsuario { get; set; }
         public string Nombre { get; set; }
         public string Apellido1 { get; set; }
         public string Apellido2 { get; set; }
@@ -16,5 +18,13 @@ namespace ISOGES_PM_API.Entities
         public int TipoUsuario { get; set; }
         public bool Estado { get; set; }
         public string Contrasena { get; set; }
+        public string Puesto { get; set; }
+        public string NombreTipoUsuario { get; set; }
+    }
+
+    public class UserResponse : Response
+    {
+        public UsuarioEnt ObjectSingle { get; set; } = new UsuarioEnt();
+        public List<UsuarioEnt> ObjectList { get; set; } = new List<UsuarioEnt>();
     }
 }
