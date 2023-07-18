@@ -1,7 +1,9 @@
 ﻿using ISOGES_PM_API.Entities;
 using ISOGES_PM_API.Models;
+using ISOGES_PM_API.Models.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -68,6 +70,9 @@ namespace ISOGES_PM_API.Controllers
         {
             using (var bd = new ISOGES_PMEntities())
             {
+                EmailHelper emailHelper = new EmailHelper();
+                string tempPassword = emailHelper.CreatePassword();
+
                 Usuario tabla = new Usuario();
                 tabla.Nombre = entidad.Nombre;
                 tabla.Apellido1 = entidad.Apellido1;
@@ -78,10 +83,16 @@ namespace ISOGES_PM_API.Controllers
                 tabla.TipoUsuario = entidad.TipoUsuario;
                 tabla.Estado = true;
                 tabla.TipoUsuario = entidad.TipoUsuario;
-                tabla.Contrasena = entidad.Contrasena;
+                tabla.Contrasena = tempPassword;
                 tabla.Puesto = entidad.Puesto;
-
+                tabla.PassIsTemp = true;
                 bd.Usuario.Add(tabla);
+
+                emailHelper.SendEmail(entidad.CorreoElectronico, "Nueva Cuenta ISOGES-PM", "Bienvenido a Isoges Project Management Sr(a) " + entidad.Nombre +" "+ entidad.Apellido1 +" "+ entidad.Apellido2 + "." +
+                     "\n\nSu correo electronico asignado es el: "+entidad.CorreoElectronico+
+                     "\n\nSu Contraseña temporal es: "+tempPassword+
+                     "\n\nPor favor dirigase a la página de ISOGES-PM ingrese a su cuenta y cambie la contraseña temporal por una secreta.");
+
                 return bd.SaveChanges();
             }
         }
@@ -180,6 +191,28 @@ namespace ISOGES_PM_API.Controllers
             {
                 APIresponse.ReturnMessage = ex.Message;
                 return APIresponse;
+            }
+        }
+
+        [HttpPut]
+        [Route("api/InactivarUsuario")]
+        public int InactivarUsuario(UsuarioEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Usuario
+                             where x.IdUsuario == entidad.IdUsuario
+                             select x).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    bool estadoActual = datos.Estado;
+
+                    datos.Estado = (estadoActual == true ? false : true);
+                    return bd.SaveChanges();
+                }
+
+                return 0;
             }
         }
 

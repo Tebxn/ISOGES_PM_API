@@ -28,21 +28,30 @@ namespace ISOGES_PM_API.Models.Utilities
             string CuentaEmail = ConfigurationManager.AppSettings["CuentaEmail"].ToString();
             string PasswordEmail = ConfigurationManager.AppSettings["PasswordEmail"].ToString();
 
-            MailMessage msg = new MailMessage();
-            msg.To.Add(new MailAddress(destinatario));
-            msg.From = new MailAddress(CuentaEmail);
-            msg.Subject = asunto;
-            msg.Body = mensaje;
-            msg.IsBodyHtml = true;
+            try
+            {
+                MailMessage msg = new MailMessage();
+                msg.To.Add(new MailAddress(destinatario));
+                msg.From = new MailAddress(CuentaEmail);
+                msg.Subject = asunto;
+                msg.Body = mensaje;
+                msg.IsBodyHtml = true;
 
-            SmtpClient client = new SmtpClient();
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(CuentaEmail, PasswordEmail);
-            client.Port = 587;
-            client.Host = "smtp.office365.com";
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.EnableSsl = true;
-            client.Send(msg);
+                SmtpClient client = new SmtpClient();
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential(CuentaEmail, PasswordEmail);
+                client.Port = 587;
+                client.Host = "smtp.office365.com";
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.EnableSsl = true;
+
+                client.Send(msg);
+                Console.WriteLine("Correo enviado al: "+destinatario);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al enviar el correo: " + ex.Message);
+            }
         }
     }
 }
