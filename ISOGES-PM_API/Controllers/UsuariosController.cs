@@ -69,12 +69,17 @@ namespace ISOGES_PM_API.Controllers
             using (var bd = new ISOGES_PMEntities())
             {
                 Usuario tabla = new Usuario();
-                tabla.CorreoElectronico = entidad.CorreoElectronico;
-                tabla.Contrasena = entidad.Contrasena;
-                tabla.Identificacion = entidad.Identificacion;
                 tabla.Nombre = entidad.Nombre;
-                tabla.Estado = entidad.Estado;
+                tabla.Apellido1 = entidad.Apellido1;
+                tabla.Apellido2 = entidad.Apellido2;
+                tabla.Identificacion = entidad.Identificacion;
+                tabla.CorreoElectronico = entidad.CorreoElectronico;
+                tabla.Telefono = entidad.Telefono;
                 tabla.TipoUsuario = entidad.TipoUsuario;
+                tabla.Estado = true;
+                tabla.TipoUsuario = entidad.TipoUsuario;
+                tabla.Contrasena = entidad.Contrasena;
+                tabla.Puesto = entidad.Puesto;
 
                 bd.Usuario.Add(tabla);
                 return bd.SaveChanges();
