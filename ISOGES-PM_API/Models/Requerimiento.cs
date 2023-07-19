@@ -17,19 +17,15 @@ namespace ISOGES_PM_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Requerimiento()
         {
-            this.Proyecto = new HashSet<Proyecto>();
+            this.Requerimiento_Proyecto = new HashSet<Requerimiento_Proyecto>();
         }
     
         public long IdRequerimiento { get; set; }
         public string Codigo { get; set; }
         public string Nombre { get; set; }
-        public System.DateTime FechaInicio { get; set; }
-        public System.DateTime FechaConclusion { get; set; }
-        public long EmpleadoAsignado { get; set; }
-        public bool Estado { get; set; }
+        public string Descripcion { get; set; }
     
-        public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyecto> Proyecto { get; set; }
+        public virtual ICollection<Requerimiento_Proyecto> Requerimiento_Proyecto { get; set; }
     }
 }

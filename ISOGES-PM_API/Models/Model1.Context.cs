@@ -28,10 +28,12 @@ namespace ISOGES_PM_API.Models
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Cobro> Cobro { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
+        public virtual DbSet<Puesto> Puesto { get; set; }
         public virtual DbSet<Requerimiento> Requerimiento { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TipoCobro> TipoCobro { get; set; }
         public virtual DbSet<TipoUsuario> TipoUsuario { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Requerimiento_Proyecto> Requerimiento_Proyecto { get; set; }
     }
 }
