@@ -56,10 +56,7 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Cobro_Proyecto' does not have a prim
     <Property Name="IdRequerimiento" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Codigo" Type="varchar" MaxLength="150" Nullable="false" />
     <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="FechaInicio" Type="date" Nullable="false" />
-    <Property Name="FechaConclusion" Type="date" Nullable="false" />
-    <Property Name="EmpleadoAsignado" Type="bigint" Nullable="false" />
-    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -67,9 +64,15 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
     <Key>
       <PropertyRef Name="IdProyecto" />
       <PropertyRef Name="IdRequerimiento" />
+      <PropertyRef Name="EmpleadoAsignado" />
+      <PropertyRef Name="FechaInicio" />
+      <PropertyRef Name="FechaLimite" />
     </Key>
     <Property Name="IdProyecto" Type="bigint" Nullable="false" />
     <Property Name="IdRequerimiento" Type="bigint" Nullable="false" />
+    <Property Name="EmpleadoAsignado" Type="bigint" Nullable="false" />
+    <Property Name="FechaInicio" Type="date" Nullable="false" />
+    <Property Name="FechaLimite" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -196,14 +199,14 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Requerimiento_Usuario">
+  <Association Name="FK_Requerimiento_Proyecto_Usuario">
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-    <End Role="Requerimiento" Type="Self.Requerimiento" Multiplicity="*" />
+    <End Role="Requerimiento_Proyecto" Type="Self.Requerimiento_Proyecto" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Usuario">
         <PropertyRef Name="IdUsuario" />
       </Principal>
-      <Dependent Role="Requerimiento">
+      <Dependent Role="Requerimiento_Proyecto">
         <PropertyRef Name="EmpleadoAsignado" />
       </Dependent>
     </ReferentialConstraint>
@@ -251,7 +254,10 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
     <EntitySet Name="Requerimiento_Proyecto" EntityType="Self.Requerimiento_Proyecto" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [Requerimiento_Proyecto].[IdProyecto] AS [IdProyecto], 
-    [Requerimiento_Proyecto].[IdRequerimiento] AS [IdRequerimiento]
+    [Requerimiento_Proyecto].[IdRequerimiento] AS [IdRequerimiento], 
+    [Requerimiento_Proyecto].[EmpleadoAsignado] AS [EmpleadoAsignado], 
+    [Requerimiento_Proyecto].[FechaInicio] AS [FechaInicio], 
+    [Requerimiento_Proyecto].[FechaLimite] AS [FechaLimite]
     FROM [dbo].[Requerimiento_Proyecto] AS [Requerimiento_Proyecto]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_Cobro_Proyecto" Association="Self.FK_Cobro_Proyecto">
@@ -282,9 +288,9 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
       <End Role="Requerimiento" EntitySet="Requerimiento" />
       <End Role="Requerimiento_Proyecto" EntitySet="Requerimiento_Proyecto" />
     </AssociationSet>
-    <AssociationSet Name="FK_Requerimiento_Usuario" Association="Self.FK_Requerimiento_Usuario">
+    <AssociationSet Name="FK_Requerimiento_Proyecto_Usuario" Association="Self.FK_Requerimiento_Proyecto_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />
-      <End Role="Requerimiento" EntitySet="Requerimiento" />
+      <End Role="Requerimiento_Proyecto" EntitySet="Requerimiento_Proyecto" />
     </AssociationSet>
     <AssociationSet Name="FK_Usuario_Puesto" Association="Self.FK_Usuario_Puesto">
       <End Role="Puesto" EntitySet="Puesto" />

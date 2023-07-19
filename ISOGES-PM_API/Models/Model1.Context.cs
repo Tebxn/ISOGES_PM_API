@@ -34,5 +34,6 @@ namespace ISOGES_PM_API.Models
         public virtual DbSet<TipoCobro> TipoCobro { get; set; }
         public virtual DbSet<TipoUsuario> TipoUsuario { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Requerimiento_Proyecto> Requerimiento_Proyecto { get; set; }
     }
 }

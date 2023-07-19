@@ -17,7 +17,7 @@ namespace ISOGES_PM_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Usuario()
         {
-            this.Requerimiento = new HashSet<Requerimiento>();
+            this.Requerimiento_Proyecto = new HashSet<Requerimiento_Proyecto>();
         }
     
         public long IdUsuario { get; set; }
@@ -34,8 +34,8 @@ namespace ISOGES_PM_API.Models
         public Nullable<int> Puesto { get; set; }
     
         public virtual Puesto Puesto1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Requerimiento> Requerimiento { get; set; }
         public virtual TipoUsuario TipoUsuario1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Requerimiento_Proyecto> Requerimiento_Proyecto { get; set; }
     }
 }

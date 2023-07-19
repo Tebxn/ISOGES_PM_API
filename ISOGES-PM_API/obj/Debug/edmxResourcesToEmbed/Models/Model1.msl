@@ -50,10 +50,7 @@
           <ScalarProperty Name="IdRequerimiento" ColumnName="IdRequerimiento" />
           <ScalarProperty Name="Codigo" ColumnName="Codigo" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
-          <ScalarProperty Name="FechaConclusion" ColumnName="FechaConclusion" />
-          <ScalarProperty Name="EmpleadoAsignado" ColumnName="EmpleadoAsignado" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -102,20 +99,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Requerimiento_Proyecto">
+      <EntityTypeMapping TypeName="ISOGES_PMModel.Requerimiento_Proyecto">
+        <MappingFragment StoreEntitySet="Requerimiento_Proyecto">
+          <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+          <ScalarProperty Name="IdRequerimiento" ColumnName="IdRequerimiento" />
+          <ScalarProperty Name="EmpleadoAsignado" ColumnName="EmpleadoAsignado" />
+          <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+          <ScalarProperty Name="FechaLimite" ColumnName="FechaLimite" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="Cobro_Proyecto" TypeName="ISOGES_PMModel.Cobro_Proyecto" StoreEntitySet="Cobro_Proyecto">
       <EndProperty Name="Cobro">
         <ScalarProperty Name="IdCobro" ColumnName="IdCobro" />
       </EndProperty>
       <EndProperty Name="Proyecto">
         <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="Requerimiento_Proyecto" TypeName="ISOGES_PMModel.Requerimiento_Proyecto" StoreEntitySet="Requerimiento_Proyecto">
-      <EndProperty Name="Proyecto">
-        <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
-      </EndProperty>
-      <EndProperty Name="Requerimiento">
-        <ScalarProperty Name="IdRequerimiento" ColumnName="IdRequerimiento" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

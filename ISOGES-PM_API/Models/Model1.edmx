@@ -61,10 +61,7 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Cobro_Proyecto' does not have a prim
           <Property Name="IdRequerimiento" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Codigo" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="FechaInicio" Type="date" Nullable="false" />
-          <Property Name="FechaConclusion" Type="date" Nullable="false" />
-          <Property Name="EmpleadoAsignado" Type="bigint" Nullable="false" />
-          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -72,9 +69,15 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <Key>
             <PropertyRef Name="IdProyecto" />
             <PropertyRef Name="IdRequerimiento" />
+            <PropertyRef Name="EmpleadoAsignado" />
+            <PropertyRef Name="FechaInicio" />
+            <PropertyRef Name="FechaLimite" />
           </Key>
           <Property Name="IdProyecto" Type="bigint" Nullable="false" />
           <Property Name="IdRequerimiento" Type="bigint" Nullable="false" />
+          <Property Name="EmpleadoAsignado" Type="bigint" Nullable="false" />
+          <Property Name="FechaInicio" Type="date" Nullable="false" />
+          <Property Name="FechaLimite" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -201,14 +204,14 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Requerimiento_Usuario">
+        <Association Name="FK_Requerimiento_Proyecto_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Requerimiento" Type="Self.Requerimiento" Multiplicity="*" />
+          <End Role="Requerimiento_Proyecto" Type="Self.Requerimiento_Proyecto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Usuario">
               <PropertyRef Name="IdUsuario" />
             </Principal>
-            <Dependent Role="Requerimiento">
+            <Dependent Role="Requerimiento_Proyecto">
               <PropertyRef Name="EmpleadoAsignado" />
             </Dependent>
           </ReferentialConstraint>
@@ -256,7 +259,10 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <EntitySet Name="Requerimiento_Proyecto" EntityType="Self.Requerimiento_Proyecto" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Requerimiento_Proyecto].[IdProyecto] AS [IdProyecto], 
-    [Requerimiento_Proyecto].[IdRequerimiento] AS [IdRequerimiento]
+    [Requerimiento_Proyecto].[IdRequerimiento] AS [IdRequerimiento], 
+    [Requerimiento_Proyecto].[EmpleadoAsignado] AS [EmpleadoAsignado], 
+    [Requerimiento_Proyecto].[FechaInicio] AS [FechaInicio], 
+    [Requerimiento_Proyecto].[FechaLimite] AS [FechaLimite]
     FROM [dbo].[Requerimiento_Proyecto] AS [Requerimiento_Proyecto]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Cobro_Proyecto" Association="Self.FK_Cobro_Proyecto">
@@ -287,9 +293,9 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             <End Role="Requerimiento" EntitySet="Requerimiento" />
             <End Role="Requerimiento_Proyecto" EntitySet="Requerimiento_Proyecto" />
           </AssociationSet>
-          <AssociationSet Name="FK_Requerimiento_Usuario" Association="Self.FK_Requerimiento_Usuario">
+          <AssociationSet Name="FK_Requerimiento_Proyecto_Usuario" Association="Self.FK_Requerimiento_Proyecto_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Requerimiento" EntitySet="Requerimiento" />
+            <End Role="Requerimiento_Proyecto" EntitySet="Requerimiento_Proyecto" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuario_Puesto" Association="Self.FK_Usuario_Puesto">
             <End Role="Puesto" EntitySet="Puesto" />
@@ -342,8 +348,8 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <Property Name="MontoEstimado" Type="Double" />
           <NavigationProperty Name="Cliente1" Relationship="Self.FK_Proyecto_Cliente" FromRole="Proyecto" ToRole="Cliente" />
           <NavigationProperty Name="Cobro" Relationship="Self.FK_Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
+          <NavigationProperty Name="Requerimiento_Proyecto" Relationship="Self.FK_Requerimiento_Proyecto_Proyecto" FromRole="Proyecto" ToRole="Requerimiento_Proyecto" />
           <NavigationProperty Name="Cobro1" Relationship="Self.Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
-          <NavigationProperty Name="Requerimiento" Relationship="Self.Requerimiento_Proyecto" FromRole="Proyecto" ToRole="Requerimiento" />
         </EntityType>
         <EntityType Name="Puesto">
           <Key>
@@ -360,12 +366,8 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <Property Name="IdRequerimiento" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Codigo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="FechaConclusion" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EmpleadoAsignado" Type="Int64" Nullable="false" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_Requerimiento_Usuario" FromRole="Requerimiento" ToRole="Usuario" />
-          <NavigationProperty Name="Proyecto" Relationship="Self.Requerimiento_Proyecto" FromRole="Requerimiento" ToRole="Proyecto" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Requerimiento_Proyecto" Relationship="Self.FK_Requerimiento_Proyecto_Requerimiento" FromRole="Requerimiento" ToRole="Requerimiento_Proyecto" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -410,8 +412,25 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <Property Name="PassIsTemp" Type="Boolean" />
           <Property Name="Puesto" Type="Int32" />
           <NavigationProperty Name="Puesto1" Relationship="Self.FK_Usuario_Puesto" FromRole="Usuario" ToRole="Puesto" />
-          <NavigationProperty Name="Requerimiento" Relationship="Self.FK_Requerimiento_Usuario" FromRole="Usuario" ToRole="Requerimiento" />
           <NavigationProperty Name="TipoUsuario1" Relationship="Self.FK_Usuario_TipoUsuario" FromRole="Usuario" ToRole="TipoUsuario" />
+          <NavigationProperty Name="Requerimiento_Proyecto" Relationship="Self.FK_Requerimiento_Proyecto_Usuario" FromRole="Usuario" ToRole="Requerimiento_Proyecto" />
+        </EntityType>
+        <EntityType Name="Requerimiento_Proyecto">
+          <Key>
+            <PropertyRef Name="IdProyecto" />
+            <PropertyRef Name="IdRequerimiento" />
+            <PropertyRef Name="EmpleadoAsignado" />
+            <PropertyRef Name="FechaInicio" />
+            <PropertyRef Name="FechaLimite" />
+          </Key>
+          <Property Name="IdProyecto" Type="Int64" Nullable="false" />
+          <Property Name="IdRequerimiento" Type="Int64" Nullable="false" />
+          <Property Name="EmpleadoAsignado" Type="Int64" Nullable="false" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaLimite" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Requerimiento_Proyecto_Proyecto" FromRole="Requerimiento_Proyecto" ToRole="Proyecto" />
+          <NavigationProperty Name="Requerimiento" Relationship="Self.FK_Requerimiento_Proyecto_Requerimiento" FromRole="Requerimiento_Proyecto" ToRole="Requerimiento" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Requerimiento_Proyecto_Usuario" FromRole="Requerimiento_Proyecto" ToRole="Usuario" />
         </EntityType>
         <Association Name="FK_Proyecto_Cliente">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
@@ -449,6 +468,18 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Requerimiento_Proyecto_Proyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="Requerimiento_Proyecto" Type="Self.Requerimiento_Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="Requerimiento_Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuario_Puesto">
           <End Role="Puesto" Type="Self.Puesto" Multiplicity="0..1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -461,15 +492,15 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Requerimiento_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Requerimiento" Type="Self.Requerimiento" Multiplicity="*" />
+        <Association Name="FK_Requerimiento_Proyecto_Requerimiento">
+          <End Role="Requerimiento" Type="Self.Requerimiento" Multiplicity="1" />
+          <End Role="Requerimiento_Proyecto" Type="Self.Requerimiento_Proyecto" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="IdUsuario" />
+            <Principal Role="Requerimiento">
+              <PropertyRef Name="IdRequerimiento" />
             </Principal>
-            <Dependent Role="Requerimiento">
-              <PropertyRef Name="EmpleadoAsignado" />
+            <Dependent Role="Requerimiento_Proyecto">
+              <PropertyRef Name="IdRequerimiento" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -485,13 +516,21 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Requerimiento_Proyecto_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Requerimiento_Proyecto" Type="Self.Requerimiento_Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Requerimiento_Proyecto">
+              <PropertyRef Name="EmpleadoAsignado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Cobro_Proyecto">
           <End Role="Cobro" Type="Self.Cobro" Multiplicity="*" />
           <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
-        </Association>
-        <Association Name="Requerimiento_Proyecto">
-          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
-          <End Role="Requerimiento" Type="Self.Requerimiento" Multiplicity="*" />
         </Association>
         <EntityContainer Name="ISOGES_PMEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Cliente" EntityType="Self.Cliente" />
@@ -503,6 +542,7 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <EntitySet Name="TipoCobro" EntityType="Self.TipoCobro" />
           <EntitySet Name="TipoUsuario" EntityType="Self.TipoUsuario" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <EntitySet Name="Requerimiento_Proyecto" EntityType="Self.Requerimiento_Proyecto" />
           <AssociationSet Name="FK_Proyecto_Cliente" Association="Self.FK_Proyecto_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
             <End Role="Proyecto" EntitySet="Proyecto" />
@@ -515,25 +555,29 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             <End Role="TipoCobro" EntitySet="TipoCobro" />
             <End Role="Cobro" EntitySet="Cobro" />
           </AssociationSet>
+          <AssociationSet Name="FK_Requerimiento_Proyecto_Proyecto" Association="Self.FK_Requerimiento_Proyecto_Proyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="Requerimiento_Proyecto" EntitySet="Requerimiento_Proyecto" />
+          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Puesto" Association="Self.FK_Usuario_Puesto">
             <End Role="Puesto" EntitySet="Puesto" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
-          <AssociationSet Name="FK_Requerimiento_Usuario" Association="Self.FK_Requerimiento_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
+          <AssociationSet Name="FK_Requerimiento_Proyecto_Requerimiento" Association="Self.FK_Requerimiento_Proyecto_Requerimiento">
             <End Role="Requerimiento" EntitySet="Requerimiento" />
+            <End Role="Requerimiento_Proyecto" EntitySet="Requerimiento_Proyecto" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuario_TipoUsuario" Association="Self.FK_Usuario_TipoUsuario">
             <End Role="TipoUsuario" EntitySet="TipoUsuario" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
+          <AssociationSet Name="FK_Requerimiento_Proyecto_Usuario" Association="Self.FK_Requerimiento_Proyecto_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Requerimiento_Proyecto" EntitySet="Requerimiento_Proyecto" />
+          </AssociationSet>
           <AssociationSet Name="Cobro_Proyecto" Association="Self.Cobro_Proyecto">
             <End Role="Cobro" EntitySet="Cobro" />
             <End Role="Proyecto" EntitySet="Proyecto" />
-          </AssociationSet>
-          <AssociationSet Name="Requerimiento_Proyecto" Association="Self.Requerimiento_Proyecto">
-            <End Role="Proyecto" EntitySet="Proyecto" />
-            <End Role="Requerimiento" EntitySet="Requerimiento" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -591,10 +635,7 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
                 <ScalarProperty Name="IdRequerimiento" ColumnName="IdRequerimiento" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
-                <ScalarProperty Name="FechaConclusion" ColumnName="FechaConclusion" />
-                <ScalarProperty Name="EmpleadoAsignado" ColumnName="EmpleadoAsignado" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -643,20 +684,23 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Requerimiento_Proyecto">
+            <EntityTypeMapping TypeName="ISOGES_PMModel.Requerimiento_Proyecto">
+              <MappingFragment StoreEntitySet="Requerimiento_Proyecto">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdRequerimiento" ColumnName="IdRequerimiento" />
+                <ScalarProperty Name="EmpleadoAsignado" ColumnName="EmpleadoAsignado" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaLimite" ColumnName="FechaLimite" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <AssociationSetMapping Name="Cobro_Proyecto" TypeName="ISOGES_PMModel.Cobro_Proyecto" StoreEntitySet="Cobro_Proyecto">
             <EndProperty Name="Cobro">
               <ScalarProperty Name="IdCobro" ColumnName="IdCobro" />
             </EndProperty>
             <EndProperty Name="Proyecto">
               <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="Requerimiento_Proyecto" TypeName="ISOGES_PMModel.Requerimiento_Proyecto" StoreEntitySet="Requerimiento_Proyecto">
-            <EndProperty Name="Proyecto">
-              <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
-            </EndProperty>
-            <EndProperty Name="Requerimiento">
-              <ScalarProperty Name="IdRequerimiento" ColumnName="IdRequerimiento" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

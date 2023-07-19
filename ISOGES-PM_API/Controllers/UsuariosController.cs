@@ -249,5 +249,66 @@ namespace ISOGES_PM_API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/ConsultarPuestos")]
+        public List<PuestoEnt> ConsultarPuestos()
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Puesto
+                             select x).ToList();
+
+                if (datos.Count > 0)
+                {
+                    var resp = new List<PuestoEnt>();
+                    foreach (var item in datos)
+                    {
+                        resp.Add(new PuestoEnt
+                        {
+                            IdPuesto = item.IdPuesto,
+                            NombrePuesto = item.NombrePuesto,
+                        });
+                    }
+                    return resp;
+                }
+                else
+                {
+                    return new List<PuestoEnt>();
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("api/ConsultarUsuarioPorId")]
+        public UsuarioEnt ConsultaUsuario(long q)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Usuario
+                             where x.IdUsuario == q
+                             select x).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    UsuarioEnt resp = new UsuarioEnt();
+                    resp.Nombre = datos.Nombre;
+                    resp.Apellido1 = datos.Apellido1;
+                    resp.Apellido2 = datos.Apellido2;
+                    resp.Identificacion = datos.Identificacion;
+                    resp.CorreoElectronico = datos.CorreoElectronico;
+                    resp.Telefono = datos.Telefono;
+                    resp.TipoUsuario = datos.TipoUsuario;
+                    resp.Puesto = (int)datos.Puesto;
+                    resp.Estado = datos.Estado;
+                    resp.Contrasena = datos.Contrasena;
+                    return resp;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
     }
 }
