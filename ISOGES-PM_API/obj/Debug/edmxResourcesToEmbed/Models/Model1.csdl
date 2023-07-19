@@ -40,6 +40,14 @@
     <NavigationProperty Name="Cobro1" Relationship="Self.Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
     <NavigationProperty Name="Requerimiento" Relationship="Self.Requerimiento_Proyecto" FromRole="Proyecto" ToRole="Requerimiento" />
   </EntityType>
+  <EntityType Name="Puesto">
+    <Key>
+      <PropertyRef Name="IdPuesto" />
+    </Key>
+    <Property Name="IdPuesto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombrePuesto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Puesto" FromRole="Puesto" ToRole="Usuario" />
+  </EntityType>
   <EntityType Name="Requerimiento">
     <Key>
       <PropertyRef Name="IdRequerimiento" />
@@ -95,7 +103,8 @@
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="Contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="PassIsTemp" Type="Boolean" />
-    <Property Name="Puesto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Puesto" Type="Int32" />
+    <NavigationProperty Name="Puesto1" Relationship="Self.FK_Usuario_Puesto" FromRole="Usuario" ToRole="Puesto" />
     <NavigationProperty Name="Requerimiento" Relationship="Self.FK_Requerimiento_Usuario" FromRole="Usuario" ToRole="Requerimiento" />
     <NavigationProperty Name="TipoUsuario1" Relationship="Self.FK_Usuario_TipoUsuario" FromRole="Usuario" ToRole="TipoUsuario" />
   </EntityType>
@@ -135,6 +144,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Usuario_Puesto">
+    <End Role="Puesto" Type="Self.Puesto" Multiplicity="0..1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Puesto">
+        <PropertyRef Name="IdPuesto" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="Puesto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Requerimiento_Usuario">
     <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
     <End Role="Requerimiento" Type="Self.Requerimiento" Multiplicity="*" />
@@ -171,6 +192,7 @@
     <EntitySet Name="Cliente" EntityType="Self.Cliente" />
     <EntitySet Name="Cobro" EntityType="Self.Cobro" />
     <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
+    <EntitySet Name="Puesto" EntityType="Self.Puesto" />
     <EntitySet Name="Requerimiento" EntityType="Self.Requerimiento" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TipoCobro" EntityType="Self.TipoCobro" />
@@ -187,6 +209,10 @@
     <AssociationSet Name="FK_Cobro_TipoCobro" Association="Self.FK_Cobro_TipoCobro">
       <End Role="TipoCobro" EntitySet="TipoCobro" />
       <End Role="Cobro" EntitySet="Cobro" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuario_Puesto" Association="Self.FK_Usuario_Puesto">
+      <End Role="Puesto" EntitySet="Puesto" />
+      <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
     <AssociationSet Name="FK_Requerimiento_Usuario" Association="Self.FK_Requerimiento_Usuario">
       <End Role="Usuario" EntitySet="Usuario" />

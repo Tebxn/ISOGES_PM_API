@@ -18,8 +18,9 @@ namespace ISOGES_PM_API.Entities
         public int TipoUsuario { get; set; }
         public bool Estado { get; set; }
         public string Contrasena { get; set; }
-        public string Puesto { get; set; }
-        public string NombreTipoUsuario { get; set; }
+        public int Puesto { get; set; }
+        public string NombreTipoUsuario { get; set; } //tipo usuario
+        public string NombrePuesto { get; set; } //puesto
     }
 
     public class UserResponse : Response

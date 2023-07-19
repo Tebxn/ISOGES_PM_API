@@ -36,6 +36,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Puesto">
+      <EntityTypeMapping TypeName="ISOGES_PMModel.Puesto">
+        <MappingFragment StoreEntitySet="Puesto">
+          <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+          <ScalarProperty Name="NombrePuesto" ColumnName="NombrePuesto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Requerimiento">
       <EntityTypeMapping TypeName="ISOGES_PMModel.Requerimiento">
         <MappingFragment StoreEntitySet="Requerimiento">

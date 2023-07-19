@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace ISOGES_PM_API.Controllers
 {
@@ -53,7 +54,7 @@ namespace ISOGES_PM_API.Controllers
                     resp.TipoUsuario = datos.TipoUsuario;
                     resp.NombreTipoUsuario = datos.NombreTipo;
                     resp.Estado = datos.Estado;
-                    resp.Puesto = datos.Puesto;
+                    resp.Puesto = (int)datos.Puesto;
 
                     return resp;
                 }
@@ -105,6 +106,7 @@ namespace ISOGES_PM_API.Controllers
             {
                 var datos = (from x in bd.Usuario
                              join y in bd.TipoUsuario on x.TipoUsuario equals y.IdTipoUsuario
+                             join z in bd.Puesto on x.Puesto equals z.IdPuesto
                              select new {
                                  x.IdUsuario,
                                  x.Nombre,
@@ -116,7 +118,8 @@ namespace ISOGES_PM_API.Controllers
                                  x.TipoUsuario,
                                  y.NombreTipo,
                                  x.Estado,
-                                 x.Puesto
+                                 x.Puesto,
+                                 z.NombrePuesto
                              }).ToList();
 
                 if (datos.Count > 0)
@@ -136,7 +139,8 @@ namespace ISOGES_PM_API.Controllers
                         TipoUsuario = item.TipoUsuario,
                         NombreTipoUsuario = item.NombreTipo,
                         Estado = item.Estado,
-                        Puesto = item.Puesto
+                        Puesto = (int)item.Puesto,
+                        NombrePuesto = item.NombrePuesto
                     });
                     }
                     return resp;
@@ -213,6 +217,35 @@ namespace ISOGES_PM_API.Controllers
                 }
 
                 return 0;
+            }
+        }
+
+        [HttpGet]
+        [Route("api/ConsultarTiposUsuarios")]
+        public List<TipoUsuarioEnt> ConsultarTiposUsuarios()
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.TipoUsuario
+                             select x).ToList();
+
+                if (datos.Count > 0)
+                {
+                    var resp = new List<TipoUsuarioEnt>();
+                    foreach (var item in datos)
+                    {
+                        resp.Add(new TipoUsuarioEnt
+                        {
+                            IdTipoUsuario = item.IdTipoUsuario,
+                            NombreTipo = item.NombreTipo,
+                        });
+                    }
+                    return resp;
+                }
+                else
+                {
+                    return new List<TipoUsuarioEnt>();
+                }
             }
         }
 

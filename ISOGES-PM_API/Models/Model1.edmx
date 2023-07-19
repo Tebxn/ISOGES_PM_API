@@ -47,6 +47,13 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Cobro_Proyecto' does not have a prim
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="MontoEstimado" Type="float" />
         </EntityType>
+        <EntityType Name="Puesto">
+          <Key>
+            <PropertyRef Name="IdPuesto" />
+          </Key>
+          <Property Name="IdPuesto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombrePuesto" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Requerimiento">
           <Key>
             <PropertyRef Name="IdRequerimiento" />
@@ -108,7 +115,7 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="Contrasena" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PassIsTemp" Type="bit" />
-          <Property Name="Puesto" Type="varchar" MaxLength="50" />
+          <Property Name="Puesto" Type="int" />
         </EntityType>
         <Association Name="FK_Cobro_Proyecto">
           <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
@@ -206,6 +213,18 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Usuario_Puesto">
+          <End Role="Puesto" Type="Self.Puesto" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Puesto">
+              <PropertyRef Name="IdPuesto" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Puesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuario_TipoUsuario">
           <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -222,6 +241,7 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cobro" EntityType="Self.Cobro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Puesto" EntityType="Self.Puesto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requerimiento" EntityType="Self.Requerimiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoCobro" EntityType="Self.TipoCobro" Schema="dbo" store:Type="Tables" />
@@ -270,6 +290,10 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <AssociationSet Name="FK_Requerimiento_Usuario" Association="Self.FK_Requerimiento_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Requerimiento" EntitySet="Requerimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Puesto" Association="Self.FK_Usuario_Puesto">
+            <End Role="Puesto" EntitySet="Puesto" />
+            <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuario_TipoUsuario" Association="Self.FK_Usuario_TipoUsuario">
             <End Role="TipoUsuario" EntitySet="TipoUsuario" />
@@ -320,6 +344,14 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <NavigationProperty Name="Cobro" Relationship="Self.FK_Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
           <NavigationProperty Name="Cobro1" Relationship="Self.Cobro_Proyecto" FromRole="Proyecto" ToRole="Cobro" />
           <NavigationProperty Name="Requerimiento" Relationship="Self.Requerimiento_Proyecto" FromRole="Proyecto" ToRole="Requerimiento" />
+        </EntityType>
+        <EntityType Name="Puesto">
+          <Key>
+            <PropertyRef Name="IdPuesto" />
+          </Key>
+          <Property Name="IdPuesto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombrePuesto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Puesto" FromRole="Puesto" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Requerimiento">
           <Key>
@@ -376,7 +408,8 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="Contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PassIsTemp" Type="Boolean" />
-          <Property Name="Puesto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Puesto" Type="Int32" />
+          <NavigationProperty Name="Puesto1" Relationship="Self.FK_Usuario_Puesto" FromRole="Usuario" ToRole="Puesto" />
           <NavigationProperty Name="Requerimiento" Relationship="Self.FK_Requerimiento_Usuario" FromRole="Usuario" ToRole="Requerimiento" />
           <NavigationProperty Name="TipoUsuario1" Relationship="Self.FK_Usuario_TipoUsuario" FromRole="Usuario" ToRole="TipoUsuario" />
         </EntityType>
@@ -416,6 +449,18 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Usuario_Puesto">
+          <End Role="Puesto" Type="Self.Puesto" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Puesto">
+              <PropertyRef Name="IdPuesto" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Puesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Requerimiento_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Requerimiento" Type="Self.Requerimiento" Multiplicity="*" />
@@ -452,6 +497,7 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <EntitySet Name="Cliente" EntityType="Self.Cliente" />
           <EntitySet Name="Cobro" EntityType="Self.Cobro" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
+          <EntitySet Name="Puesto" EntityType="Self.Puesto" />
           <EntitySet Name="Requerimiento" EntityType="Self.Requerimiento" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TipoCobro" EntityType="Self.TipoCobro" />
@@ -468,6 +514,10 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
           <AssociationSet Name="FK_Cobro_TipoCobro" Association="Self.FK_Cobro_TipoCobro">
             <End Role="TipoCobro" EntitySet="TipoCobro" />
             <End Role="Cobro" EntitySet="Cobro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Puesto" Association="Self.FK_Usuario_Puesto">
+            <End Role="Puesto" EntitySet="Puesto" />
+            <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <AssociationSet Name="FK_Requerimiento_Usuario" Association="Self.FK_Requerimiento_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
@@ -524,6 +574,14 @@ warning 6002: The table/view 'ISOGES_PM.dbo.Requerimiento_Proyecto' does not hav
                 <ScalarProperty Name="Cliente" ColumnName="Cliente" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="MontoEstimado" ColumnName="MontoEstimado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Puesto">
+            <EntityTypeMapping TypeName="ISOGES_PMModel.Puesto">
+              <MappingFragment StoreEntitySet="Puesto">
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="NombrePuesto" ColumnName="NombrePuesto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
