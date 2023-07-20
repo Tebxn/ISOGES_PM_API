@@ -397,3 +397,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/.vs/ISOGES-PM_API/v17/.suo
