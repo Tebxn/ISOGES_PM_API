@@ -398,7 +398,24 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /.vs/ISOGES-PM_API/v17/.suo
+/.vs/ISOGES-PM_API/config/applicationhost.config
 /ISOGES-PM_API/bin/ISOGES-PM_API.dll
+/ISOGES-PM_API/bin/ISOGES-PM_API.dll.config
 /ISOGES-PM_API/bin/ISOGES-PM_API.pdb
+/ISOGES-PM_API/Models/Model1.Context.cs
+/ISOGES-PM_API/Models/Model1.Designer.cs
+/ISOGES-PM_API/Models/Model1.edmx
+/ISOGES-PM_API/Models/Model1.edmx.diagram
+/ISOGES-PM_API/Models/sysdiagrams.cs
+/ISOGES-PM_API/obj/Debug/edmxResourcesToEmbed/Models/Model1.csdl
+/ISOGES-PM_API/obj/Debug/edmxResourcesToEmbed/Models/Model1.msl
+/ISOGES-PM_API/obj/Debug/edmxResourcesToEmbed/Models/Model1.ssdl
+/ISOGES-PM_API/obj/Debug/TempPE/Models.Model1.cs.dll
+/ISOGES-PM_API/obj/Debug/TempPE/Models.Model1.Designer.cs.dll
+/ISOGES-PM_API/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/ISOGES-PM_API/obj/Debug/ISOGES-PM_API.csproj.AssemblyReference.cache
+/ISOGES-PM_API/obj/Debug/ISOGES-PM_API.csproj.CoreCompileInputs.cache
+/ISOGES-PM_API/obj/Debug/ISOGES-PM_API.csproj.FileListAbsolute.txt
 /ISOGES-PM_API/obj/Debug/ISOGES-PM_API.dll
+/ISOGES-PM_API/Web.config
 /ISOGES-PM_API/obj/Debug/ISOGES-PM_API.pdb
