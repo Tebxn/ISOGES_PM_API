@@ -419,5 +419,4 @@ FodyWeavers.xsd
 /ISOGES-PM_API/obj/Debug/ISOGES-PM_API.dll
 /ISOGES-PM_API/Web.config
 /ISOGES-PM_API/obj/Debug/ISOGES-PM_API.pdb
-/ISOGES-PM_API/Controllers/UsuariosController.cs
-/ISOGES-PM_API/Controllers/HomeController.cs
+
