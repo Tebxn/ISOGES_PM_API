@@ -11,48 +11,48 @@ namespace ISOGES_PM_API.Controllers
 {
     public class ProyectoController : ApiController
     {
+
         [HttpGet]
         [Route("api/ConsultarProyectos")]
-        public ProyectoResponse ConsultarProyectos()
+        public List<ProyectoEnt> ConsultarProyectos()
         {
-            ProyectoResponse APIresponse = new ProyectoResponse();
-            try
+            using (var bd = new ISOGES_PMEntities())
             {
-                using (var bd = new ISOGES_PMEntities())
+                var datos = (from x in bd.Proyecto
+                             join y in bd.Cliente on x.Cliente equals y.IdCliente
+                             select new
+                             {
+                                 x.IdProyecto,
+                                 x.Nombre,
+                                 x.Descripcion,
+                                 x.Estado,
+                                 x.Cliente,
+                                 x.MontoEstimado
+                             }).ToList();
+
+                if (datos.Count > 0)
                 {
-                    var datos = (from x in bd.Proyecto
-                                 select x).ToList();
-
-                    if (datos.Count > 0)
+                    var lista = new List<ProyectoEnt>();
+                    foreach (var item in datos)
                     {
-                        var lista = new List<ProyectoEnt>();
-                        foreach (var item in datos)
+                        lista.Add(new ProyectoEnt
                         {
-                            lista.Add(new ProyectoEnt
-                            {
-                                Nombre = item.Nombre,
-                                Descripcion = item.Descripcion,
-                                Cliente = item.Cliente,
-                                Estado = item.Estado,
-                                MontoEstimado = (double)item.MontoEstimado
+                            Nombre = item.Nombre,
+                            Descripcion = item.Descripcion,
+                            Cliente = item.Cliente,
+                            Estado = item.Estado,
+                            MontoEstimado = (double)item.MontoEstimado
 
-                            });
-                        }
+                        });
+                    }
 
-                        APIresponse.ObjectList = lista;
-                        return APIresponse;
-                    }
-                    else
-                    {
-                        APIresponse.ReturnMessage = "No existen datos por mostrar";
-                        return APIresponse;
-                    }
+                    return lista;
                 }
-            }
-            catch (Exception ex)
-            {
-                APIresponse.ReturnMessage = ex.Message;
-                return APIresponse;
+                else
+                {
+
+                    return new List<ProyectoEnt>();
+                }
             }
         }
 
