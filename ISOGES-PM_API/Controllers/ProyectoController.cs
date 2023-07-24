@@ -131,5 +131,27 @@ namespace ISOGES_PM_API.Controllers
                 return 0;
             }
         }
+
+        [HttpPut]
+        [Route("api/InactivarProyecto")]
+        public int InactivarUsuario(ProyectoEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Proyecto
+                             where x.IdProyecto == entidad.IdProyecto
+                             select x).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    bool estadoActual = datos.Estado;
+
+                    datos.Estado = (estadoActual == true ? false : true);
+                    return bd.SaveChanges();
+                }
+
+                return 0;
+            }
+        }
     }
 }
