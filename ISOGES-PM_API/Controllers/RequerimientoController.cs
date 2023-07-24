@@ -28,6 +28,7 @@ namespace ISOGES_PM_API.Controllers
                 tabla.Codigo = entidad.Codigo; 
                 tabla.Nombre = entidad.Nombre;
                 tabla.Descripcion = entidad.Descripcion;
+                tabla.Estado = true;
      
                 bd.Requerimiento.Add(tabla);
                
@@ -47,7 +48,9 @@ namespace ISOGES_PM_API.Controllers
                                  x.IdRequerimiento,
                                  x.Codigo,
                                  x.Nombre,
-                                 x.Descripcion
+                                 x.Descripcion,
+                                 x.URL,
+                                 x.Estado
 
                              }).ToList();
 
@@ -61,7 +64,9 @@ namespace ISOGES_PM_API.Controllers
                             IdRequerimiento = item.IdRequerimiento,
                             Codigo = item.Codigo,
                             Nombre = item.Nombre,
-                            Descripcion = item.Descripcion
+                            Descripcion = item.Descripcion,
+                            URL = item.URL,
+                            Estado = item.Estado
                             
                         });
                     }
@@ -91,6 +96,8 @@ namespace ISOGES_PM_API.Controllers
                     resp.Codigo = datos.Codigo;
                     resp.Nombre = datos.Nombre;
                     resp.Descripcion = datos.Descripcion;
+                    resp.URL = datos.URL;
+                    resp.Estado = datos.Estado;
 
                     return resp;
                 }
@@ -101,8 +108,8 @@ namespace ISOGES_PM_API.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("api/EliminarRequerimiento")]
+        [HttpPut]
+        [Route("api/InactivarRequerimiento")]
         public int InactivarRequerimiento(RequerimientoEnt entidad)
         {
             using (var bd = new ISOGES_PMEntities())
@@ -113,9 +120,9 @@ namespace ISOGES_PM_API.Controllers
 
                 if (datos != null)
                 {
+                    bool estadoActual = datos.Estado;
 
-
-                    bd.Requerimiento.Remove(datos);
+                    datos.Estado = (estadoActual == true ? false : true);
                     return bd.SaveChanges();
                 }
 
@@ -125,7 +132,7 @@ namespace ISOGES_PM_API.Controllers
 
         [HttpPut]
         [Route("api/EditarRequerimiento")]
-        public int CambiarClave(RequerimientoEnt entidad)
+        public int EditarRequerimiento(RequerimientoEnt entidad)
         {
             using (var bd = new ISOGES_PMEntities())
             {

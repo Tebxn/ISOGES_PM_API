@@ -212,9 +212,6 @@
     <Compile Include="Models\Requerimiento_Proyecto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TipoCobro.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
