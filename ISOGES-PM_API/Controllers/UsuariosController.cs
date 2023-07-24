@@ -292,6 +292,7 @@ namespace ISOGES_PM_API.Controllers
                 if (datos != null)
                 {
                     UsuarioEnt resp = new UsuarioEnt();
+                    resp.IdUsuario = datos.IdUsuario;
                     resp.Nombre = datos.Nombre;
                     resp.Apellido1 = datos.Apellido1;
                     resp.Apellido2 = datos.Apellido2;
@@ -301,13 +302,60 @@ namespace ISOGES_PM_API.Controllers
                     resp.TipoUsuario = datos.TipoUsuario;
                     resp.Puesto = (int)datos.Puesto;
                     resp.Estado = datos.Estado;
-                    resp.Contrasena = datos.Contrasena;
                     return resp;
                 }
                 else
                 {
                     return null;
                 }
+            }
+        }
+
+        [HttpPut]
+        [Route("api/EditarUsuario")]
+        public int EditarUsuario(UsuarioEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Usuario
+                             where x.IdUsuario == entidad.IdUsuario
+                             select x).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    datos.Nombre = entidad.Nombre;
+                    datos.Apellido1 = entidad.Apellido1;
+                    datos.Apellido2 = entidad.Apellido2;
+                    datos.Identificacion = entidad.Identificacion;
+                    datos.CorreoElectronico = entidad.CorreoElectronico;
+                    datos.Telefono = entidad.Telefono;
+                    datos.TipoUsuario = entidad.TipoUsuario;
+                    datos.Puesto = (int)entidad.Puesto;
+                    datos.Estado = entidad.Estado;
+                    return bd.SaveChanges();
+                }
+
+                return 0;
+            }
+        }
+
+        [HttpPut]
+        [Route("api/ActivarUsuario")]
+        public int ActivarUsuario(UsuarioEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Usuario
+                             where x.IdUsuario == entidad.IdUsuario
+                             select x).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    datos.Estado = true;
+                    return bd.SaveChanges();
+                }
+
+                return 0;
             }
         }
 
