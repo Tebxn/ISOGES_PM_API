@@ -59,72 +59,76 @@ namespace ISOGES_PM_API.Controllers
 
         [HttpGet]
         [Route("api/ConsultarProyectoPorId")]
-        public ProyectoResponse ConsultarCobroPorId(long id)
+        public ProyectoEnt ConsultarProyecto(long q)
         {
-            ProyectoResponse APIresponse = new ProyectoResponse();
-            try
+            using (var bd = new ISOGES_PMEntities())
             {
-                using (var bd = new ISOGES_PMEntities())
+                var datos = (from x in bd.Proyecto
+                             where x.IdProyecto == q
+                             select x).FirstOrDefault();
+
+                if (datos != null)
                 {
-                    var datos = (from x in bd.Proyecto
-                                 where x.IdProyecto == id
-                                 select x).FirstOrDefault();
+                    ProyectoEnt resp = new ProyectoEnt();
+                    resp.IdProyecto = datos.IdProyecto;
+                    resp.NombreProyecto = datos.NombreProyecto;
+                    resp.Descripcion = datos.Descripcion;
+                    resp.Cliente = datos.Cliente;
+                    resp.MontoEstimado = (double)datos.MontoEstimado;
 
-                    if (datos != null)
-                    {
-                        ProyectoEnt proyectoEncontrado = new ProyectoEnt
-                        {
-                            NombreProyecto = datos.NombreProyecto,
-                            Descripcion = datos.Descripcion,
-                            Cliente = datos.Cliente,
-                            Estado = datos.Estado,
-                            MontoEstimado = (double)datos.MontoEstimado
-                        };
-
-
-                        APIresponse.ObjectSingle = proyectoEncontrado;
-                        return APIresponse;
-                    }
-                    else
-                    {
-                        APIresponse.ReturnMessage = "No se ha encontrado un proyecto con el id ingresado";
-                        return APIresponse;
-                    }
+                    return resp;
                 }
-            }
-            catch (Exception ex)
-            {
-                APIresponse.ReturnMessage = ex.Message;
-                return APIresponse;
+                else
+                {
+                    return null;
+                }
             }
         }
 
+
         [HttpPost]
         [Route("api/CrearProyecto")]
-        public ProyectoResponse CrearProyecto(ProyectoEnt entity)
+        public int CrearProyecto(ProyectoEnt entidad)
         {
-            ProyectoResponse APIresponse = new ProyectoResponse();
-            try
+            using (var bd = new ISOGES_PMEntities())
             {
-                using (var bd = new ISOGES_PMEntities())
-                {
-                    Proyecto tabla = new Proyecto();
-                    tabla.NombreProyecto = entity.NombreProyecto;
-                    tabla.Descripcion = entity.Descripcion;
-                    tabla.Cliente = entity.Cliente;
-                    tabla.Estado = entity.Estado;
-                    tabla.MontoEstimado = entity.MontoEstimado;
-                    bd.Proyecto.Add(tabla);
-                    bd.SaveChanges();
 
-                    APIresponse.ReturnMessage = "Proyecto Creado";
-                    return APIresponse;
-                }
+                Proyecto tabla = new Proyecto();
+                tabla.NombreProyecto = entidad.NombreProyecto;
+                tabla.Estado = true;
+                tabla.Descripcion = entidad.Descripcion;
+                tabla.Cliente = entidad.Cliente;
+                tabla.MontoEstimado = entidad.MontoEstimado;
+
+              
+
+                bd.Proyecto.Add(tabla);
+
+                return bd.SaveChanges();
             }
-            catch (Exception ex)
+        }
+
+        [HttpPut]
+        [Route("api/EditarProyecto")]
+        public int EditarProyecto(ProyectoEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
             {
-                APIresponse.ReturnMessage = ex.Message;
-                return APIresponse;
+                var datos = (from x in bd.Proyecto
+                             where x.IdProyecto == entidad.IdProyecto
+                             select x).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    datos.NombreProyecto = entidad.NombreProyecto;
+                    datos.Descripcion = entidad.Descripcion;
+                    datos.Cliente = entidad.Cliente;
+                    datos.MontoEstimado = entidad.MontoEstimado;
+                    datos.Estado = true;
+                    return bd.SaveChanges();
+                }
+
+                return 0;
             }
         }
     }
