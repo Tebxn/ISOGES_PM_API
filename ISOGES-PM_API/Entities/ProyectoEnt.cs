@@ -8,9 +8,12 @@ namespace ISOGES_PM_API.Entities
 {
     public class ProyectoEnt
     {
-        public string Nombre { get; set; }
+
+        public long IdProyecto { get; set; }
+        public string NombreProyecto { get; set; }
         public string Descripcion { get; set; }
         public long Cliente { get; set; }
+        public string NombreCliente { get; set; }
         public bool Estado { get; set; }
         public double MontoEstimado { get; set; }
 

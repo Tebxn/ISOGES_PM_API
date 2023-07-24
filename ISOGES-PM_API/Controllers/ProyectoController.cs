@@ -23,10 +23,10 @@ namespace ISOGES_PM_API.Controllers
                              select new
                              {
                                  x.IdProyecto,
-                                 x.Nombre,
+                                 x.NombreProyecto,
                                  x.Descripcion,
                                  x.Estado,
-                                 x.Cliente,
+                                 y.Nombre,
                                  x.MontoEstimado
                              }).ToList();
 
@@ -37,9 +37,10 @@ namespace ISOGES_PM_API.Controllers
                     {
                         lista.Add(new ProyectoEnt
                         {
-                            Nombre = item.Nombre,
+                            IdProyecto = item.IdProyecto,
+                            NombreProyecto = item.NombreProyecto,
                             Descripcion = item.Descripcion,
-                            Cliente = item.Cliente,
+                            NombreCliente = item.Nombre,
                             Estado = item.Estado,
                             MontoEstimado = (double)item.MontoEstimado
 
@@ -73,7 +74,7 @@ namespace ISOGES_PM_API.Controllers
                     {
                         ProyectoEnt proyectoEncontrado = new ProyectoEnt
                         {
-                            Nombre = datos.Nombre,
+                            NombreProyecto = datos.NombreProyecto,
                             Descripcion = datos.Descripcion,
                             Cliente = datos.Cliente,
                             Estado = datos.Estado,
@@ -108,7 +109,7 @@ namespace ISOGES_PM_API.Controllers
                 using (var bd = new ISOGES_PMEntities())
                 {
                     Proyecto tabla = new Proyecto();
-                    tabla.Nombre = entity.Nombre;
+                    tabla.NombreProyecto = entity.NombreProyecto;
                     tabla.Descripcion = entity.Descripcion;
                     tabla.Cliente = entity.Cliente;
                     tabla.Estado = entity.Estado;
