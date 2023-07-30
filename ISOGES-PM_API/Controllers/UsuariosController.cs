@@ -18,52 +18,65 @@ namespace ISOGES_PM_API.Controllers
     {
         [HttpPost]
         [Route("api/IniciarSesion")]
-        public UsuarioEnt IniciarSesion(UsuarioEnt entidad)
+        public UsuarioResponse IniciarSesion(UsuarioResponse entidad)
         {
-            using (var bd = new ISOGES_PMEntities())
+            UsuarioResponse APIresponse = new UsuarioResponse();
+            try
             {
-                var datos = (from x in bd.Usuario
-                             join y in bd.TipoUsuario on x.TipoUsuario equals y.IdTipoUsuario
-                             where x.CorreoElectronico == entidad.CorreoElectronico
-                                      && x.Contrasena == entidad.Contrasena
-                                      && x.Estado == true
-
-                             select new {
-                                x.IdUsuario,
-                                x.Nombre,
-                                x.Apellido1,
-                                x.Apellido2,
-                                x.Identificacion,
-                                x.CorreoElectronico,
-                                x.Telefono,
-                                x.TipoUsuario,
-                                y.NombreTipo,
-                                x.Estado,
-                                x.Puesto
-                             }).FirstOrDefault();
-
-                if (datos != null)
+                using (var bd = new ISOGES_PMEntities())
                 {
-                    UsuarioEnt resp = new UsuarioEnt();
-                    resp.IdUsuario = datos.IdUsuario;
-                    resp.Nombre = datos.Nombre;
-                    resp.Apellido1 = datos.Apellido1;
-                    resp.Apellido2 = datos.Apellido2;
-                    resp.Identificacion = datos.Identificacion;
-                    resp.CorreoElectronico = datos.CorreoElectronico;
-                    resp.Telefono = datos.Telefono;
-                    resp.TipoUsuario = datos.TipoUsuario;
-                    resp.NombreTipoUsuario = datos.NombreTipo;
-                    resp.Estado = datos.Estado;
-                    resp.Puesto = (int)datos.Puesto;
+                    var datos = (from x in bd.Usuario
+                                 join y in bd.TipoUsuario on x.TipoUsuario equals y.IdTipoUsuario
+                                 where x.CorreoElectronico == entidad.ObjectSingle.CorreoElectronico
+                                          && x.Contrasena == entidad.ObjectSingle.Contrasena
+                                          && x.Estado == true
 
-                    return resp;
+                                 select new
+                                 {
+                                     x.IdUsuario,
+                                     x.Nombre,
+                                     x.Apellido1,
+                                     x.Apellido2,
+                                     x.Identificacion,
+                                     x.CorreoElectronico,
+                                     x.Telefono,
+                                     x.TipoUsuario,
+                                     y.NombreTipo,
+                                     x.Estado,
+                                     x.PassIsTemp,
+                                     x.Puesto
+                                 }).FirstOrDefault();
+
+                    if (datos != null)
+                    {
+                        UsuarioEnt resp = new UsuarioEnt();
+                        resp.IdUsuario = datos.IdUsuario;
+                        resp.Nombre = datos.Nombre;
+                        resp.Apellido1 = datos.Apellido1;
+                        resp.Apellido2 = datos.Apellido2;
+                        resp.Identificacion = datos.Identificacion;
+                        resp.CorreoElectronico = datos.CorreoElectronico;
+                        resp.Telefono = datos.Telefono;
+                        resp.TipoUsuario = datos.TipoUsuario;
+                        resp.NombreTipoUsuario = datos.NombreTipo;
+                        resp.Estado = datos.Estado;
+                        resp.Puesto = (int)datos.Puesto;
+                        resp.PassIsTemp = (bool)datos.PassIsTemp;
+
+                        APIresponse.ObjectSingle = resp;
+                        return APIresponse;
+                    }
+                    else
+                    {
+                        APIresponse.ReturnMessage = "El correo electronico o la contraseña no coinciden";
+                        return APIresponse;
+                    }
                 }
-                else
-                {
-                    return null;
-                }
-            } 
+            }catch(Exception ex)
+            {
+                APIresponse.ReturnMessage = "No se ha podido iniciar la sesion error inesperado";
+                return APIresponse;
+            }
         }
 
         [HttpPost]
@@ -155,9 +168,9 @@ namespace ISOGES_PM_API.Controllers
 
         [HttpGet]
         [Route("api/ConsultarUsuarioPorId")]
-        public UserResponse ConsultarUsuarioPorId(long id)
+        public UsuarioResponse ConsultarUsuarioPorId(long id)
         {
-            UserResponse APIresponse = new UserResponse();
+            UsuarioResponse APIresponse = new UsuarioResponse();
             try
             {
                 using (var bd = new ISOGES_PMEntities())
@@ -355,6 +368,25 @@ namespace ISOGES_PM_API.Controllers
                     return bd.SaveChanges();
                 }
 
+                return 0;
+            }
+        }
+        [HttpPut]
+        [Route("api/CambiarContrasena")]
+        public int CambiarContrasenaTemp(UsuarioEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Usuario
+                             where x.IdUsuario == entidad.IdUsuario
+                             select x).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    datos.Contrasena = entidad.NuevaContrasena;
+                    datos.PassIsTemp = false;
+                    return bd.SaveChanges();
+                }
                 return 0;
             }
         }

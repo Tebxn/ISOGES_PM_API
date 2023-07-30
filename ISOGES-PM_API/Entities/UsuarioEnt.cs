@@ -19,11 +19,13 @@ namespace ISOGES_PM_API.Entities
         public bool Estado { get; set; }
         public string Contrasena { get; set; }
         public int Puesto { get; set; }
+        public bool PassIsTemp { get; set; }
         public string NombreTipoUsuario { get; set; } //tipo usuario
         public string NombrePuesto { get; set; } //puesto
+        public string NuevaContrasena { get; set; } //local
     }
 
-    public class UserResponse : Response
+    public class UsuarioResponse : Response
     {
         public UsuarioEnt ObjectSingle { get; set; } = new UsuarioEnt();
         public List<UsuarioEnt> ObjectList { get; set; } = new List<UsuarioEnt>();
