@@ -85,8 +85,8 @@ namespace ISOGES_PM_API.Controllers
         {
             using (var bd = new ISOGES_PMEntities())
             {
-                EmailHelper emailHelper = new EmailHelper();
-                string tempPassword = emailHelper.CreatePassword();
+                UtilFunctions utilFunctions = new UtilFunctions();
+                string tempPassword = utilFunctions.CreatePassword();
 
                 Usuario tabla = new Usuario();
                 tabla.Nombre = entidad.Nombre;
@@ -103,10 +103,10 @@ namespace ISOGES_PM_API.Controllers
                 tabla.PassIsTemp = true;
                 bd.Usuario.Add(tabla);
 
-                emailHelper.SendEmail(entidad.CorreoElectronico, "Nueva Cuenta ISOGES-PM", "Bienvenido a Isoges Project Management Sr(a) " + entidad.Nombre +" "+ entidad.Apellido1 +" "+ entidad.Apellido2 + "." +
+                utilFunctions.SendEmail(entidad.CorreoElectronico, "Nueva Cuenta ISOGES-PM", "Bienvenido a Isoges Project Management Sr(a) " + entidad.Nombre +" "+ entidad.Apellido1 +" "+ entidad.Apellido2 + ". " +
                      "\n\nSu correo electronico asignado es el: "+entidad.CorreoElectronico+
-                     "\n\nSu Contraseña temporal es: "+tempPassword+
-                     "\n\nPor favor dirigase a la página de ISOGES-PM ingrese a su cuenta y cambie la contraseña temporal por una secreta.");
+                     "\n\n Su Contraseña temporal es: "+tempPassword+
+                     "\n\n Por favor dirigase a la página de ISOGES-PM ingrese a su cuenta y cambie la contraseña temporal por una secreta.");
 
                 return bd.SaveChanges();
             }
@@ -385,6 +385,36 @@ namespace ISOGES_PM_API.Controllers
                 {
                     datos.Contrasena = entidad.NuevaContrasena;
                     datos.PassIsTemp = false;
+                    return bd.SaveChanges();
+                }
+                return 0;
+            }
+        }
+
+        [HttpPut]
+        [Route("api/RestablecerContrasena")]
+        public int RestablecerContrasena(UsuarioEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Usuario
+                             where x.CorreoElectronico == entidad.CorreoElectronico
+                             select x).FirstOrDefault();
+
+                UtilFunctions utilFunctions = new UtilFunctions();
+                string tempPassword = utilFunctions.CreatePassword();
+
+                if (datos != null)
+                {
+                    datos.Contrasena = tempPassword;
+                    datos.PassIsTemp = true;
+                    
+
+                    utilFunctions.SendEmail(entidad.CorreoElectronico, "Restablecimiento de contraseña ISOGES-PM", "Bienvenido a Isoges Project Management Sr(a) " + entidad.Nombre + " " + entidad.Apellido1 + " " + entidad.Apellido2 + ". " +
+                     "\n\nSu correo electronico asignado es el: " + entidad.CorreoElectronico +
+                     "\n\n Su contraseña ha sido restablecida. Su nueva contraseña temporal es: " + tempPassword +
+                     "\n\n Por favor dirigase a la página de ISOGES-PM ingrese a su cuenta y cambie la contraseña temporal por una secreta.");
+
                     return bd.SaveChanges();
                 }
                 return 0;

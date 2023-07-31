@@ -8,7 +8,7 @@ using System.Web;
 
 namespace ISOGES_PM_API.Models.Utilities
 {
-    public class EmailHelper
+    public class UtilFunctions
     {
         public string CreatePassword()
         {
