@@ -12,23 +12,18 @@ namespace ISOGES_PM_API.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cobro
+    public partial class Estado_Cobro
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Cobro()
+        public Estado_Cobro()
         {
-            this.Proyecto_Cobros = new HashSet<Proyecto_Cobros>();
+            this.Cobro = new HashSet<Cobro>();
         }
     
-        public long IdCobro { get; set; }
-        public int TipoCobro { get; set; }
-        public System.DateTime Fecha { get; set; }
         public int IdEstadoCobro { get; set; }
-        public double Monto { get; set; }
+        public string NombreEstado { get; set; }
     
-        public virtual Estado_Cobro Estado_Cobro { get; set; }
-        public virtual TipoCobro TipoCobro1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyecto_Cobros> Proyecto_Cobros { get; set; }
+        public virtual ICollection<Cobro> Cobro { get; set; }
     }
 }

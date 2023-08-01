@@ -14,10 +14,13 @@ namespace ISOGES_PM_API.Entities
 
     public class CobroEnt
     {
+        public long IdCobro { get; set; }
         public int TipoCobro { get; set; }
         public DateTime Fecha { get; set; }
-        public bool EstadoCobro { get; set; }
+        public int IdEstadoCobro { get; set; }
         public double Monto { get; set; }
-        public long IdProyecto { get; set; }
+        public string NombreTipoCobro { get; set; } //TipoCobro
+        public string NombreEstado { get; set; } //EstadoCobro
+        public string FechaSola { get; set; } //local
     }
 }

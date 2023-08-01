@@ -170,6 +170,7 @@
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Entities\ClienteEnt.cs" />
     <Compile Include="Entities\CobroEnt.cs" />
+    <Compile Include="Entities\Proyecto_Cobros.cs" />
     <Compile Include="Entities\ProyectoEnt.cs" />
     <Compile Include="Entities\PuestoEnt.cs" />
     <Compile Include="Entities\RequerimientoEnt.cs" />
@@ -183,6 +184,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Cobro.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Estado_Cobro.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -203,6 +207,9 @@
     <Compile Include="Models\Proyecto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Proyecto_Cobros.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Puesto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -210,6 +217,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Requerimiento_Proyecto.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TipoCobro.cs">

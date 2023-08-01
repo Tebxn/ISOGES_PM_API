@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Web.Http;
 
 namespace ISOGES_PM_API.Controllers
@@ -12,105 +13,59 @@ namespace ISOGES_PM_API.Controllers
     public class CobroController : ApiController
     {
         [HttpGet]
-        [Route("api/ConsultarCobros")]
-        public CobroResponse ConsultarCobros()
+        [Route("api/ConsultarCobrosPorProyecto")]
+        public List<CobroEnt> ConsultarCobros(long q)//q=idProyecto
         {
-            CobroResponse APIresponse = new CobroResponse();
-            try
+            using (var bd = new ISOGES_PMEntities())
             {
-                using (var bd = new ISOGES_PMEntities())
+                var datos = (from x in bd.Proyecto_Cobros
+                             join y in bd.Cobro on x.IdCobro equals y.IdCobro
+                             join n in bd.Estado_Cobro on y.IdEstadoCobro equals n.IdEstadoCobro
+                             join z in bd.TipoCobro on y.TipoCobro equals z.IdTipoCobro
+                             where x.IdProyecto == q
+                             select new
+                             {
+                                 y.IdCobro,
+                                 y.TipoCobro,
+                                 z.TipoCobro1,
+                                 y.Fecha,
+                                 y.IdEstadoCobro,
+                                 n.NombreEstado,
+                                 y.Monto
+                             }).ToList();
+
+                if (datos.Count > 0)
                 {
-                    var datos = (from x in bd.Cobro
-                                 select x).ToList();
-
-                    if (datos.Count > 0)
+                    var resp = new List<CobroEnt>();
+                    foreach (var item in datos)
                     {
-                        var lista = new List<CobroEnt>();
-                        foreach (var item in datos)
+                        DateTime dateTime = item.Fecha;
+                        DateTime fechaSola = dateTime.Date;
+                        TimeSpan horaSola = dateTime.TimeOfDay;
+                        string fechaEnviar = fechaSola.ToString("yyyy-MM-dd");
+
+                        resp.Add(new CobroEnt
                         {
-                            lista.Add(new CobroEnt
-                            {
-                                TipoCobro = item.TipoCobro,
-                                Fecha = item.Fecha,
-                                Monto = item.Monto,
-                                IdProyecto = item.IdProyecto
-                            });
-                        }
-
-                        APIresponse.ObjectList = lista;
-                        return APIresponse;
+                            IdCobro = item.IdCobro,
+                            NombreTipoCobro = item.TipoCobro1,
+                            TipoCobro = item.TipoCobro,
+                            Fecha = item.Fecha,
+                            IdEstadoCobro = item.IdEstadoCobro,
+                            NombreEstado = item.NombreEstado,
+                            Monto = item.Monto,
+                            FechaSola = fechaEnviar
+                        });
                     }
-                    else
-                    {
-                        APIresponse.ReturnMessage = "No existen datos por mostrar";
-                        return APIresponse;
-                    }
+                    return resp;
                 }
-            }
-            catch (Exception ex)
-            {
-                APIresponse.ReturnMessage = ex.Message;
-                return APIresponse;
+                else
+                {
+                    return new List<CobroEnt>();
+                }
             }
         }
 
-        [HttpGet]
-        [Route("api/ConsultarCobroPorId")]
-        public CobroResponse ConsultarCobroPorId(long id)
-        {
-            CobroResponse APIresponse = new CobroResponse();
-            try
-            {
-                using (var bd = new ISOGES_PMEntities())
-                {
-                    var datos = (from x in bd.Cobro
-                                 where x.IdProyecto == id
-                                 select x).FirstOrDefault();
 
-                    if (datos != null)
-                    {
-                        CobroEnt cobroEncontrado = new CobroEnt
-                        {
-                            TipoCobro = datos.TipoCobro,
-                            Fecha = datos.Fecha,
-                            EstadoCobro = datos.EstadoCobro,
-                            Monto = datos.Monto,
-                            IdProyecto = datos.IdProyecto
-                        };
-
-
-                        APIresponse.ObjectSingle = cobroEncontrado;
-                        return APIresponse;
-                    }
-                    else
-                    {
-                        APIresponse.ReturnMessage = "No se ha encontrado un cobro con el id ingresado";
-                        return APIresponse;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                APIresponse.ReturnMessage = ex.Message;
-                return APIresponse;
-            }
-        }
-
-        //[HttpPut]
-        //[Route("api/EditarCobro")]
-        //public CobroResponse EditarCobro(CobroEnt entity)
-        //{
-        //    CobroResponse APIresponse = new CobroResponse();
-        //    try
-        //    {
-        //        //code
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        APIresponse.ReturnMessage = ex.Message;
-        //        return APIresponse;
-        //    }
-        //}
     }
 }
 
