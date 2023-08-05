@@ -11,6 +11,7 @@ namespace ISOGES_PM_API.Entities
         public long IdCliente { get; set; }
         public string Nombre { get; set; }
         public string Identificacion { get; set; }
+        public bool Estado { get; set; }
         public string CorreoElectronico { get; set; }
         public string Telefono { get; set; }
     }

@@ -12,12 +12,16 @@ namespace ISOGES_PM_API.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Proyecto_Cobros
+    public partial class Correo
     {
-        public long IdProyecto { get; set; }
-        public long IdCobro { get; set; }
+        public long IdCorreo { get; set; }
+        public string Asunto { get; set; }
+        public string Cuerpo { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string Remitente { get; set; }
+        public long ClienteCorreo { get; set; }
+        public bool Estado { get; set; }
     
-        public virtual Cobro Cobro { get; set; }
-        public virtual Proyecto Proyecto { get; set; }
+        public virtual Cliente Cliente { get; set; }
     }
 }

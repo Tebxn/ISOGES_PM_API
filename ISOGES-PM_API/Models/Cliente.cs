@@ -17,6 +17,7 @@ namespace ISOGES_PM_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cliente()
         {
+            this.Correo = new HashSet<Correo>();
             this.Proyecto = new HashSet<Proyecto>();
         }
     
@@ -24,8 +25,11 @@ namespace ISOGES_PM_API.Models
         public string Nombre { get; set; }
         public string Identificacion { get; set; }
         public string Telefono { get; set; }
+        public bool Estado { get; set; }
         public string CorreoElectronico { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Correo> Correo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proyecto> Proyecto { get; set; }
     }

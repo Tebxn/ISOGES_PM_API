@@ -26,6 +26,7 @@ namespace ISOGES_PM_API.Controllers
                 tabla.Nombre = entidad.Nombre;
                 tabla.Identificacion = entidad.Identificacion;
                 tabla.CorreoElectronico = entidad.CorreoElectronico;
+                tabla.Estado = true;
                 tabla.Telefono = entidad.Telefono;
                 bd.Cliente.Add(tabla);
 
@@ -54,9 +55,10 @@ namespace ISOGES_PM_API.Controllers
                             IdCliente = item.IdCliente,
                             Nombre = item.Nombre,
                             Identificacion = item.Identificacion,
+                            Estado = item.Estado,
                             CorreoElectronico = item.CorreoElectronico,
                             Telefono = item.Telefono,
-                        });
+                        }) ; 
                     }
                     return resp;
                 }
@@ -69,7 +71,7 @@ namespace ISOGES_PM_API.Controllers
 
         [HttpGet]
         [Route("api/ConsultarClientePorId")]
-        public ClienteResp ConsultarClientePorId(long id)
+        public ClienteResp ConsultarClientePorId(long q)
         {
             ClienteResp APIresponse = new ClienteResp();
             try
@@ -77,7 +79,7 @@ namespace ISOGES_PM_API.Controllers
                 using (var bd = new ISOGES_PMEntities())
                 {
                     var datos = (from x in bd.Cliente
-                                 where x.IdCliente == id
+                                 where x.IdCliente == q
                                  select x).FirstOrDefault();
 
                     if (datos != null)
@@ -87,7 +89,9 @@ namespace ISOGES_PM_API.Controllers
                             Nombre = datos.Nombre,
                             Identificacion = datos.Identificacion,
                             CorreoElectronico = datos.CorreoElectronico,
+                            Estado = datos.Estado,
                             Telefono = datos.Telefono
+
                         };
 
 
@@ -108,47 +112,53 @@ namespace ISOGES_PM_API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("api/EliminarClientePorId")]
-        public int EliminarClientePorId(long id)
+        [HttpPut]
+        [Route("api/EliminarCliente")]
+        public int EliminarCliente(ClienteEnt entidad)
         {
-            ClienteResp APIresponse = new ClienteResp();
-            try
+            using (var bd = new ISOGES_PMEntities())
             {
-                using (var bd = new ISOGES_PMEntities())
+                var datos = (from x in bd.Cliente
+                             where x.IdCliente == entidad.IdCliente
+                             select x).FirstOrDefault();
+
+                if (datos != null)
                 {
-                    var datos = (from x in bd.Cliente
-                                 where x.IdCliente == id
-                                 select x).FirstOrDefault();
+                    bool estadoActual = datos.Estado;
 
-                    if (datos != null)
-                    {
-                        ClienteEnt clienteEncontrado = new ClienteEnt
-                        {
-                            Nombre = datos.Nombre,
-                            Identificacion = datos.Identificacion,
-                            CorreoElectronico = datos.CorreoElectronico,
-                            Telefono = datos.Telefono
-                        };
-
-
-                        APIresponse.ObjectSingle = clienteEncontrado;
-                        bd.Cliente.Remove(datos);
-                       return bd.SaveChanges();
-
-                    }
-                    else
-                    {
-                        return 1;
-                    }
+                    datos.Estado = (estadoActual == true ? false : true);
+                    return bd.SaveChanges();
                 }
-            }
-            catch (Exception ex)
-            {
-                return 1;
+
+                return 0;
             }
         }
 
+        [HttpPut]
+        [Route("api/EditarCliente")]
+        public int EditarCliente(ClienteEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Cliente
+                             where x.IdCliente == entidad.IdCliente
+                             select x).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    datos.Nombre= entidad.Nombre;
+                    datos.Identificacion = entidad.Identificacion;
+                    datos.CorreoElectronico = entidad.CorreoElectronico;
+                    datos.Telefono = entidad.Telefono;
+                    datos.Estado = true;
+                    return bd.SaveChanges();
+                }
+
+                return 0;
+            }
+        }
+
+        
 
     }
 }
