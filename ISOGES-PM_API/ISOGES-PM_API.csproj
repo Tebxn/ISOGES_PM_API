@@ -165,10 +165,12 @@
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\CobroController.cs" />
     <Compile Include="Controllers\CorreoController.cs" />
+    <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProyectoController.cs" />
     <Compile Include="Controllers\RequerimientoController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Entities\ChartEnt.cs" />
     <Compile Include="Entities\CorreoEnt.cs" />
     <Compile Include="Entities\ClienteEnt.cs" />
     <Compile Include="Entities\CobroEnt.cs" />
