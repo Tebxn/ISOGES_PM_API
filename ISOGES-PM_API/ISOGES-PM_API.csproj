@@ -174,7 +174,7 @@
     <Compile Include="Entities\CorreoEnt.cs" />
     <Compile Include="Entities\ClienteEnt.cs" />
     <Compile Include="Entities\CobroEnt.cs" />
-    <Compile Include="Entities\Proyecto_Cobros.cs" />
+    <Compile Include="Entities\Proyectos_CobrosEnt.cs" />
     <Compile Include="Entities\ProyectoEnt.cs" />
     <Compile Include="Entities\PuestoEnt.cs" />
     <Compile Include="Entities\RequerimientoEnt.cs" />
@@ -212,6 +212,9 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Proyecto.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Proyectos_Cobros.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Puesto.cs">

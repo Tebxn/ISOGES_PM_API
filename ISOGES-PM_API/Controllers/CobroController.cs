@@ -18,7 +18,7 @@ namespace ISOGES_PM_API.Controllers
          {
              using (var bd = new ISOGES_PMEntities())
              {
-                 var datos = (from x in bd.Proyecto_Cobros
+                 var datos = (from x in bd.Proyectos_Cobros
                               join y in bd.Cobro on x.IdCobro equals y.IdCobro
                               join n in bd.Estado_Cobro on y.IdEstadoCobro equals n.IdEstadoCobro
                               join z in bd.TipoCobro on y.TipoCobro equals z.IdTipoCobro

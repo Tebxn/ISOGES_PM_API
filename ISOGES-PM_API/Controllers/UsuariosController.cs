@@ -21,8 +21,8 @@ namespace ISOGES_PM_API.Controllers
         public UsuarioResponse IniciarSesion(UsuarioResponse entidad)
         {
             UsuarioResponse APIresponse = new UsuarioResponse();
-            try
-            {
+            //try
+            //{
                 using (var bd = new ISOGES_PMEntities())
                 {
                     var datos = (from x in bd.Usuario
@@ -72,11 +72,11 @@ namespace ISOGES_PM_API.Controllers
                         return APIresponse;
                     }
                 }
-            }catch(Exception ex)
-            {
-                APIresponse.ReturnMessage = "No se ha podido iniciar la sesion error inesperado";
-                return APIresponse;
-            }
+            //}catch(Exception ex)
+            //{
+              //  APIresponse.ReturnMessage = "No se ha podido iniciar la sesion error inesperado";
+              //  return APIresponse;
+            //}
         }
 
         [HttpPost]
