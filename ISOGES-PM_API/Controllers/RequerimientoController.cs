@@ -9,8 +9,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
-
+using System.Web;
+using System.IO;
 
 namespace ISOGES_PM_API.Controllers
 {
@@ -145,6 +145,7 @@ namespace ISOGES_PM_API.Controllers
                     datos.Codigo = entidad.Codigo;
                     datos.Nombre = entidad.Nombre;
                     datos.Descripcion = entidad.Descripcion;
+                    datos.URL = entidad.URL;
                     return bd.SaveChanges();
                 }
 
