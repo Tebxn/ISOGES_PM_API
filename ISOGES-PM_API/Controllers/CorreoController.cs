@@ -26,11 +26,22 @@ namespace ISOGES_PM_API.Controllers
                 tabla.ClienteCorreo = entidad.ClienteCorreo;
                 tabla.Fecha = entidad.Fecha;
 
-
-
                 bd.Correo.Add(tabla);
 
-                return bd.SaveChanges();
+
+
+                UtilFunctions utilFunctions = new UtilFunctions();
+
+
+                if (tabla != null)
+                {
+
+                    utilFunctions.SendMail(entidad.NombreCorreo, entidad.Asunto, entidad.Cuerpo);
+
+                    return bd.SaveChanges();
+                }
+                return 0;
+
             }
         }
 

@@ -214,9 +214,6 @@
     <Compile Include="Models\Proyecto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Proyectos_Cobros.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Puesto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
