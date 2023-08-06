@@ -72,6 +72,7 @@ namespace ISOGES_PM_API.Controllers
                     ProyectoEnt resp = new ProyectoEnt();
                     resp.IdProyecto = datos.IdProyecto;
                     resp.NombreProyecto = datos.NombreProyecto;
+                    resp.Estado = datos.Estado;
                     resp.Descripcion = datos.Descripcion;
                     resp.Cliente = datos.Cliente;
                     resp.MontoEstimado = (double)datos.MontoEstimado;
