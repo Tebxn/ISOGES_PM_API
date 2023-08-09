@@ -56,21 +56,21 @@ namespace ISOGES_PM_API.Models.Utilities
 
         public void SendMail(string NombreCorreo, string Asunto, string Cuerpo)
         {
-            string Remitente = ConfigurationManager.AppSettings["CuentaEmail"].ToString();
+            string CuentaEmail = ConfigurationManager.AppSettings["CuentaEmail"].ToString();
             string PasswordEmail = ConfigurationManager.AppSettings["PasswordEmail"].ToString();
 
             try
             {
                 MailMessage msg = new MailMessage();
                 msg.To.Add(new MailAddress(NombreCorreo));
-                msg.From = new MailAddress(Remitente);
+                msg.From = new MailAddress(CuentaEmail);
                 msg.Subject = Asunto;
                 msg.Body = Cuerpo;
                 msg.IsBodyHtml = true;
 
                 SmtpClient client = new SmtpClient();
                 client.UseDefaultCredentials = false;
-                client.Credentials = new System.Net.NetworkCredential(Remitente, PasswordEmail);
+                client.Credentials = new System.Net.NetworkCredential(CuentaEmail, PasswordEmail);
                 client.Port = 587;
                 client.Host = "smtp.office365.com";
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;

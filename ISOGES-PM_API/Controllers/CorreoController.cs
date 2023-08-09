@@ -17,6 +17,12 @@ namespace ISOGES_PM_API.Controllers
         {
             using (var bd = new ISOGES_PMEntities())
             {
+                var correoCliente = (from x in bd.Cliente
+                                     where x.IdCliente == entidad.ClienteCorreo
+                                     select x).FirstOrDefault();
+
+
+                UtilFunctions util = new UtilFunctions();
 
                 Correo tabla = new Correo();
                 tabla.Asunto = entidad.Asunto;
@@ -28,19 +34,10 @@ namespace ISOGES_PM_API.Controllers
 
                 bd.Correo.Add(tabla);
 
-
-
-                UtilFunctions utilFunctions = new UtilFunctions();
-
-
-                if (tabla != null)
-                {
-
-                    utilFunctions.SendMail(entidad.NombreCorreo, entidad.Asunto, entidad.Cuerpo);
-
-                    return bd.SaveChanges();
-                }
-                return 0;
+                util.SendMail(correoCliente.CorreoElectronico, entidad.Asunto, entidad.Cuerpo);
+                return bd.SaveChanges();
+                
+               
 
             }
         }
