@@ -20,6 +20,7 @@ namespace ISOGES_PM_API.Controllers
             {
                 var datos = (from x in bd.Proyecto
                              join y in bd.Cliente on x.Cliente equals y.IdCliente
+                             join z in bd.Estado_Proyecto on x.EstadoGeneral equals z.IdEstadoProyecto
                              select new
                              {
                                  x.IdProyecto,
@@ -27,7 +28,9 @@ namespace ISOGES_PM_API.Controllers
                                  x.Descripcion,
                                  x.Estado,
                                  y.Nombre,
-                                 x.MontoEstimado
+                                 x.MontoEstimado,
+                                 z.NombreEstado
+
                              }).ToList();
 
                 if (datos.Count > 0)
@@ -42,7 +45,8 @@ namespace ISOGES_PM_API.Controllers
                             Descripcion = item.Descripcion,
                             NombreCliente = item.Nombre,
                             Estado = item.Estado,
-                            MontoEstimado = (double)item.MontoEstimado
+                            MontoEstimado = (double)item.MontoEstimado,
+                            NombreEstado = item.NombreEstado
 
                         });
                     }
@@ -76,6 +80,8 @@ namespace ISOGES_PM_API.Controllers
                     resp.Descripcion = datos.Descripcion;
                     resp.Cliente = datos.Cliente;
                     resp.MontoEstimado = (double)datos.MontoEstimado;
+                    resp.EstadoGeneral = (long)datos.EstadoGeneral;
+
 
                     return resp;
                 }
@@ -100,6 +106,7 @@ namespace ISOGES_PM_API.Controllers
                 tabla.Descripcion = entidad.Descripcion;
                 tabla.Cliente = entidad.Cliente;
                 tabla.MontoEstimado = entidad.MontoEstimado;
+                tabla.EstadoGeneral = entidad.EstadoGeneral;
 
               
 
@@ -126,6 +133,7 @@ namespace ISOGES_PM_API.Controllers
                     datos.Cliente = entidad.Cliente;
                     datos.MontoEstimado = entidad.MontoEstimado;
                     datos.Estado = true;
+                    datos.EstadoGeneral = entidad.EstadoGeneral;
                     return bd.SaveChanges();
                 }
 
@@ -154,5 +162,6 @@ namespace ISOGES_PM_API.Controllers
                 return 0;
             }
         }
+
     }
 }

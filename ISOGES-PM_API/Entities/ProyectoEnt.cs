@@ -16,7 +16,8 @@ namespace ISOGES_PM_API.Entities
         public string NombreCliente { get; set; }
         public bool Estado { get; set; }
         public double MontoEstimado { get; set; }
-
+        public long EstadoGeneral { get; set; }
+        public string NombreEstado { get; set; }
     }
 
     public class ProyectoResponse : Response
