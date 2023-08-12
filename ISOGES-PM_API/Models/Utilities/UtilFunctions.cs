@@ -53,5 +53,36 @@ namespace ISOGES_PM_API.Models.Utilities
                 Console.WriteLine("Error al enviar el correo: " + ex.Message);
             }
         }
+
+        public void SendMail(string NombreCorreo, string Asunto, string Cuerpo)
+        {
+            string CuentaEmail = ConfigurationManager.AppSettings["CuentaEmail"].ToString();
+            string PasswordEmail = ConfigurationManager.AppSettings["PasswordEmail"].ToString();
+
+            try
+            {
+                MailMessage msg = new MailMessage();
+                msg.To.Add(new MailAddress(NombreCorreo));
+                msg.From = new MailAddress(CuentaEmail);
+                msg.Subject = Asunto;
+                msg.Body = Cuerpo;
+                msg.IsBodyHtml = true;
+
+                SmtpClient client = new SmtpClient();
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential(CuentaEmail, PasswordEmail);
+                client.Port = 587;
+                client.Host = "smtp.office365.com";
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.EnableSsl = true;
+
+                client.Send(msg);
+                Console.WriteLine("Correo enviado al: " + NombreCorreo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al enviar el correo: " + ex.Message);
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace ISOGES_PM_API.Controllers
 {
-     public class CobroController : ApiController
+   /*  public class CobroController : ApiController
      {
          [HttpGet]
          [Route("api/ConsultarCobrosPorProyecto")]
@@ -66,7 +66,7 @@ namespace ISOGES_PM_API.Controllers
          }
 
 
-     }
+     }*/
 }
 
 
