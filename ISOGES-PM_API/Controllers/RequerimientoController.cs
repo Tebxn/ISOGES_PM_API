@@ -14,6 +14,7 @@ using System.IO;
 
 namespace ISOGES_PM_API.Controllers
 {
+    [Authorize]
     public class RequerimientoController : ApiController
     {
 

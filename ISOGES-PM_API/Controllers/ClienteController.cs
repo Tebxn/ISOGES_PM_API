@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace ISOGES_PM_API.Controllers
 {
+    [Authorize]
     public class ClienteController : ApiController
     {
 

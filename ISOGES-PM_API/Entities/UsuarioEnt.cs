@@ -23,6 +23,7 @@ namespace ISOGES_PM_API.Entities
         public string NombreTipoUsuario { get; set; } //tipo usuario
         public string NombrePuesto { get; set; } //puesto
         public string NuevaContrasena { get; set; } //local
+        public string Token { get; set; } //local
     }
 
     public class UsuarioResponse : Response

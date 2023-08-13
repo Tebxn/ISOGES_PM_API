@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace ISOGES_PM_API.Controllers
 {
+    [Authorize]
     public class ProyectoController : ApiController
     {
 
@@ -30,7 +31,6 @@ namespace ISOGES_PM_API.Controllers
                                  y.Nombre,
                                  x.MontoEstimado,
                                  z.NombreEstado
-
                              }).ToList();
 
                 if (datos.Count > 0)

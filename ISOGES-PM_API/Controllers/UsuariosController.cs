@@ -1,4 +1,5 @@
-﻿using ISOGES_PM_API.Entities;
+﻿using ISOGES_PM_API.App_Start;
+using ISOGES_PM_API.Entities;
 using ISOGES_PM_API.Models;
 using ISOGES_PM_API.Models.Utilities;
 using System;
@@ -13,16 +14,18 @@ using System.Web.Security;
 
 namespace ISOGES_PM_API.Controllers
 {
-    //prueba git 123
+    [Authorize]
     public class UsuariosController : ApiController
     {
         [HttpPost]
         [Route("api/IniciarSesion")]
+        [AllowAnonymous]
         public UsuarioResponse IniciarSesion(UsuarioResponse entidad)
         {
             UsuarioResponse APIresponse = new UsuarioResponse();
-            //try
-            //{
+            try
+            {
+                TokenGenerator tok = new TokenGenerator();
                 using (var bd = new ISOGES_PMEntities())
                 {
                     var datos = (from x in bd.Usuario
@@ -62,7 +65,7 @@ namespace ISOGES_PM_API.Controllers
                         resp.Estado = datos.Estado;
                         resp.Puesto = (int)datos.Puesto;
                         resp.PassIsTemp = (bool)datos.PassIsTemp;
-
+                        resp.Token = tok.GenerateTokenJwt(datos.IdUsuario);
                         APIresponse.ObjectSingle = resp;
                         return APIresponse;
                     }
@@ -72,11 +75,11 @@ namespace ISOGES_PM_API.Controllers
                         return APIresponse;
                     }
                 }
-            //}catch(Exception ex)
-            //{
-              //  APIresponse.ReturnMessage = "No se ha podido iniciar la sesion error inesperado";
-              //  return APIresponse;
-            //}
+            }catch(Exception ex)
+            {
+                APIresponse.ReturnMessage = "No se ha podido iniciar la sesion error inesperado, contacte con soporte";
+                return APIresponse;
+            }
         }
 
         [HttpPost]
@@ -393,6 +396,7 @@ namespace ISOGES_PM_API.Controllers
 
         [HttpPut]
         [Route("api/RestablecerContrasena")]
+        [AllowAnonymous]
         public int RestablecerContrasena(UsuarioEnt entidad)
         {
             using (var bd = new ISOGES_PMEntities())

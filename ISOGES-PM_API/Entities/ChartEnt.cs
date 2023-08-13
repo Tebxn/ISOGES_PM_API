@@ -16,4 +16,9 @@ namespace ISOGES_PM_API.Entities
         public string DiaMes { get; set; }
         public double IngresosTotales { get; set; }
     }
+    public class ChartMensualIngreso
+    {
+        public string Mes { get; set; }
+        public double MesTotalIngreso { get; set; }
+    }
 }
