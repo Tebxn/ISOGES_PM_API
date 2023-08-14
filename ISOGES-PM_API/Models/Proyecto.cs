@@ -23,7 +23,7 @@ namespace ISOGES_PM_API.Models
     
         public long IdProyecto { get; set; }
         public string NombreProyecto { get; set; }
-        public string Descripcion { get; set; }
+        public string DescripcionProyecto { get; set; }
         public long Cliente { get; set; }
         public bool Estado { get; set; }
         public Nullable<double> MontoEstimado { get; set; }

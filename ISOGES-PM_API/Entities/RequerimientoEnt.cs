@@ -9,10 +9,10 @@ namespace ISOGES_PM_API.Entities
     public class RequerimientoEnt
     {
         public long IdRequerimiento { get; set; }
-        public string Codigo { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string URL { get; set; }
+        public string CodigoRequerimiento { get; set; }
+        public string NombreRequerimiento { get; set; }
+        public string DescripcionRequerimiento { get; set; }
+        public string URLRequerimiento { get; set; }
         public bool Estado { get; set; }
 
     }

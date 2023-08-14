@@ -26,9 +26,9 @@ namespace ISOGES_PM_API.Controllers
             {
 
                 Requerimiento tabla = new Requerimiento();
-                tabla.Codigo = entidad.Codigo; 
-                tabla.Nombre = entidad.Nombre;
-                tabla.Descripcion = entidad.Descripcion;
+                tabla.CodigoRequerimiento = entidad.CodigoRequerimiento; 
+                tabla.NombreRequerimiento = entidad.NombreRequerimiento;
+                tabla.DescripcionRequerimiento = entidad.DescripcionRequerimiento;
                 tabla.Estado = true;
      
                 bd.Requerimiento.Add(tabla);
@@ -47,10 +47,10 @@ namespace ISOGES_PM_API.Controllers
                              select new
                              {
                                  x.IdRequerimiento,
-                                 x.Codigo,
-                                 x.Nombre,
-                                 x.Descripcion,
-                                 x.URL,
+                                 x.CodigoRequerimiento,
+                                 x.NombreRequerimiento,
+                                 x.DescripcionRequerimiento,
+                                 x.URLRequerimiento,
                                  x.Estado
 
                              }).ToList();
@@ -63,10 +63,10 @@ namespace ISOGES_PM_API.Controllers
                         resp.Add(new RequerimientoEnt
                         {
                             IdRequerimiento = item.IdRequerimiento,
-                            Codigo = item.Codigo,
-                            Nombre = item.Nombre,
-                            Descripcion = item.Descripcion,
-                            URL = item.URL,
+                            CodigoRequerimiento = item.CodigoRequerimiento,
+                            NombreRequerimiento = item.NombreRequerimiento,
+                            DescripcionRequerimiento = item.DescripcionRequerimiento,
+                            URLRequerimiento = item.URLRequerimiento,
                             Estado = item.Estado
                             
                         });
@@ -94,10 +94,10 @@ namespace ISOGES_PM_API.Controllers
                 {
                     RequerimientoEnt resp = new RequerimientoEnt();
                     resp.IdRequerimiento = datos.IdRequerimiento;
-                    resp.Codigo = datos.Codigo;
-                    resp.Nombre = datos.Nombre;
-                    resp.Descripcion = datos.Descripcion;
-                    resp.URL = datos.URL;
+                    resp.CodigoRequerimiento = datos.CodigoRequerimiento;
+                    resp.NombreRequerimiento = datos.NombreRequerimiento;
+                    resp.DescripcionRequerimiento = datos.DescripcionRequerimiento;
+                    resp.URLRequerimiento = datos.URLRequerimiento;
                     resp.Estado = datos.Estado;
 
                     return resp;
@@ -143,10 +143,10 @@ namespace ISOGES_PM_API.Controllers
 
                 if (datos != null)
                 {
-                    datos.Codigo = entidad.Codigo;
-                    datos.Nombre = entidad.Nombre;
-                    datos.Descripcion = entidad.Descripcion;
-                    datos.URL = entidad.URL;
+                    datos.CodigoRequerimiento = entidad.CodigoRequerimiento;
+                    datos.NombreRequerimiento = entidad.NombreRequerimiento;
+                    datos.DescripcionRequerimiento = entidad.DescripcionRequerimiento;
+                    datos.URLRequerimiento = entidad.URLRequerimiento;
                     return bd.SaveChanges();
                 }
 

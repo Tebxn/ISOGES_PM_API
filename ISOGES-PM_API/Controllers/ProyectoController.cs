@@ -26,9 +26,9 @@ namespace ISOGES_PM_API.Controllers
                              {
                                  x.IdProyecto,
                                  x.NombreProyecto,
-                                 x.Descripcion,
+                                 x.DescripcionProyecto,
                                  x.Estado,
-                                 y.Nombre,
+                                 y.NombreCliente,
                                  x.MontoEstimado,
                                  z.NombreEstado
                              }).ToList();
@@ -42,8 +42,8 @@ namespace ISOGES_PM_API.Controllers
                         {
                             IdProyecto = item.IdProyecto,
                             NombreProyecto = item.NombreProyecto,
-                            Descripcion = item.Descripcion,
-                            NombreCliente = item.Nombre,
+                            DescripcionProyecto = item.DescripcionProyecto,
+                            NombreCliente = item.NombreCliente,
                             Estado = item.Estado,
                             MontoEstimado = (double)item.MontoEstimado,
                             NombreEstado = item.NombreEstado
@@ -77,7 +77,7 @@ namespace ISOGES_PM_API.Controllers
                     resp.IdProyecto = datos.IdProyecto;
                     resp.NombreProyecto = datos.NombreProyecto;
                     resp.Estado = datos.Estado;
-                    resp.Descripcion = datos.Descripcion;
+                    resp.DescripcionProyecto = datos.DescripcionProyecto;
                     resp.Cliente = datos.Cliente;
                     resp.MontoEstimado = (double)datos.MontoEstimado;
                     resp.EstadoGeneral = (long)datos.EstadoGeneral;
@@ -103,7 +103,7 @@ namespace ISOGES_PM_API.Controllers
                 Proyecto tabla = new Proyecto();
                 tabla.NombreProyecto = entidad.NombreProyecto;
                 tabla.Estado = true;
-                tabla.Descripcion = entidad.Descripcion;
+                tabla.DescripcionProyecto = entidad.DescripcionProyecto;
                 tabla.Cliente = entidad.Cliente;
                 tabla.MontoEstimado = entidad.MontoEstimado;
                 tabla.EstadoGeneral = entidad.EstadoGeneral;
@@ -129,7 +129,7 @@ namespace ISOGES_PM_API.Controllers
                 if (datos != null)
                 {
                     datos.NombreProyecto = entidad.NombreProyecto;
-                    datos.Descripcion = entidad.Descripcion;
+                    datos.DescripcionProyecto = entidad.DescripcionProyecto;
                     datos.Cliente = entidad.Cliente;
                     datos.MontoEstimado = entidad.MontoEstimado;
                     datos.Estado = true;

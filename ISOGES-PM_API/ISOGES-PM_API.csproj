@@ -214,6 +214,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProyectoController.cs" />
     <Compile Include="Controllers\RequerimientoController.cs" />
+    <Compile Include="Controllers\Requerimiento_ProyectoController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Entities\ChartEnt.cs" />
     <Compile Include="Entities\CorreoEnt.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Entities\PuestoEnt.cs" />
     <Compile Include="Entities\RequerimientoEnt.cs" />
     <Compile Include="Entities\RequerimientoProyecto.cs" />
+    <Compile Include="Entities\Requerimiento_ProyectoEnt.cs" />
     <Compile Include="Entities\TipoUsuarioEnt.cs" />
     <Compile Include="Entities\UsuarioEnt.cs" />
     <Compile Include="Global.asax.cs">

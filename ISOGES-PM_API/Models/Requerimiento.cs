@@ -21,10 +21,10 @@ namespace ISOGES_PM_API.Models
         }
     
         public long IdRequerimiento { get; set; }
-        public string Codigo { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string URL { get; set; }
+        public string CodigoRequerimiento { get; set; }
+        public string NombreRequerimiento { get; set; }
+        public string DescripcionRequerimiento { get; set; }
+        public string URLRequerimiento { get; set; }
         public bool Estado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

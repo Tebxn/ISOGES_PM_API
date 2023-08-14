@@ -24,7 +24,7 @@ namespace ISOGES_PM_API.Controllers
 
 
                 Cliente tabla = new Cliente();
-                tabla.Nombre = entidad.Nombre;
+                tabla.NombreCliente = entidad.NombreCliente;
                 tabla.Identificacion = entidad.Identificacion;
                 tabla.CorreoElectronico = entidad.CorreoElectronico;
                 tabla.Estado = true;
@@ -54,7 +54,7 @@ namespace ISOGES_PM_API.Controllers
                         resp.Add(new ClienteEnt
                         {
                             IdCliente = item.IdCliente,
-                            Nombre = item.Nombre,
+                            NombreCliente = item.NombreCliente,
                             Identificacion = item.Identificacion,
                             Estado = item.Estado,
                             CorreoElectronico = item.CorreoElectronico,
@@ -87,7 +87,7 @@ namespace ISOGES_PM_API.Controllers
                     {
                         ClienteEnt clienteEncontrado = new ClienteEnt
                         {
-                            Nombre = datos.Nombre,
+                            NombreCliente = datos.NombreCliente,
                             Identificacion = datos.Identificacion,
                             CorreoElectronico = datos.CorreoElectronico,
                             Estado = datos.Estado,
@@ -147,7 +147,7 @@ namespace ISOGES_PM_API.Controllers
 
                 if (datos != null)
                 {
-                    datos.Nombre= entidad.Nombre;
+                    datos.NombreCliente = entidad.NombreCliente;
                     datos.Identificacion = entidad.Identificacion;
                     datos.CorreoElectronico = entidad.CorreoElectronico;
                     datos.Telefono = entidad.Telefono;

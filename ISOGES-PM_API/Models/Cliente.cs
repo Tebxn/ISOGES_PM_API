@@ -22,7 +22,7 @@ namespace ISOGES_PM_API.Models
         }
     
         public long IdCliente { get; set; }
-        public string Nombre { get; set; }
+        public string NombreCliente { get; set; }
         public string Identificacion { get; set; }
         public string Telefono { get; set; }
         public bool Estado { get; set; }
