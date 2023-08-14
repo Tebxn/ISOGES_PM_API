@@ -31,7 +31,6 @@ namespace ISOGES_PM_API.Controllers
                     var datos = (from x in bd.Usuario
                                  join y in bd.TipoUsuario on x.TipoUsuario equals y.IdTipoUsuario
                                  where x.CorreoElectronico == entidad.ObjectSingle.CorreoElectronico
-                                          && x.Contrasena == entidad.ObjectSingle.Contrasena
                                           && x.Estado == true
 
                                  select new
@@ -47,27 +46,36 @@ namespace ISOGES_PM_API.Controllers
                                      y.NombreTipo,
                                      x.Estado,
                                      x.PassIsTemp,
-                                     x.Puesto
+                                     x.Puesto,
+                                     x.Contrasena
                                  }).FirstOrDefault();
 
                     if (datos != null)
                     {
-                        UsuarioEnt resp = new UsuarioEnt();
-                        resp.IdUsuario = datos.IdUsuario;
-                        resp.Nombre = datos.Nombre;
-                        resp.Apellido1 = datos.Apellido1;
-                        resp.Apellido2 = datos.Apellido2;
-                        resp.Identificacion = datos.Identificacion;
-                        resp.CorreoElectronico = datos.CorreoElectronico;
-                        resp.Telefono = datos.Telefono;
-                        resp.TipoUsuario = datos.TipoUsuario;
-                        resp.NombreTipoUsuario = datos.NombreTipo;
-                        resp.Estado = datos.Estado;
-                        resp.Puesto = (int)datos.Puesto;
-                        resp.PassIsTemp = (bool)datos.PassIsTemp;
-                        resp.Token = tok.GenerateTokenJwt(datos.IdUsuario);
-                        APIresponse.ObjectSingle = resp;
-                        return APIresponse;
+                        if (UtilFunctions.VerifyPassword(entidad.ObjectSingle.Contrasena, datos.Contrasena))
+                        {
+                            UsuarioEnt resp = new UsuarioEnt();
+                            resp.IdUsuario = datos.IdUsuario;
+                            resp.Nombre = datos.Nombre;
+                            resp.Apellido1 = datos.Apellido1;
+                            resp.Apellido2 = datos.Apellido2;
+                            resp.Identificacion = datos.Identificacion;
+                            resp.CorreoElectronico = datos.CorreoElectronico;
+                            resp.Telefono = datos.Telefono;
+                            resp.TipoUsuario = datos.TipoUsuario;
+                            resp.NombreTipoUsuario = datos.NombreTipo;
+                            resp.Estado = datos.Estado;
+                            resp.Puesto = (int)datos.Puesto;
+                            resp.PassIsTemp = (bool)datos.PassIsTemp;
+                            resp.Token = tok.GenerateTokenJwt(datos.IdUsuario);
+                            APIresponse.ObjectSingle = resp;
+                            return APIresponse;
+                        }
+                        else 
+                        {
+                            APIresponse.ReturnMessage = "El correo electronico o la contraseña no coinciden";
+                            return APIresponse;
+                        }
                     }
                     else
                     {
@@ -91,6 +99,8 @@ namespace ISOGES_PM_API.Controllers
                 UtilFunctions utilFunctions = new UtilFunctions();
                 string tempPassword = utilFunctions.CreatePassword();
 
+                string hashedPassword = UtilFunctions.HashPassword(tempPassword);
+
                 Usuario tabla = new Usuario();
                 tabla.Nombre = entidad.Nombre;
                 tabla.Apellido1 = entidad.Apellido1;
@@ -101,7 +111,7 @@ namespace ISOGES_PM_API.Controllers
                 tabla.TipoUsuario = entidad.TipoUsuario;
                 tabla.Estado = true;
                 tabla.TipoUsuario = entidad.TipoUsuario;
-                tabla.Contrasena = tempPassword;
+                tabla.Contrasena = hashedPassword;
                 tabla.Puesto = entidad.Puesto;
                 tabla.PassIsTemp = true;
                 bd.Usuario.Add(tabla);
@@ -386,7 +396,7 @@ namespace ISOGES_PM_API.Controllers
 
                 if (datos != null)
                 {
-                    datos.Contrasena = entidad.NuevaContrasena;
+                    datos.Contrasena = UtilFunctions.HashPassword(entidad.NuevaContrasena);
                     datos.PassIsTemp = false;
                     return bd.SaveChanges();
                 }
@@ -410,7 +420,7 @@ namespace ISOGES_PM_API.Controllers
 
                 if (datos != null)
                 {
-                    datos.Contrasena = tempPassword;
+                    datos.Contrasena = UtilFunctions.HashPassword(tempPassword);
                     datos.PassIsTemp = true;
                     
 
