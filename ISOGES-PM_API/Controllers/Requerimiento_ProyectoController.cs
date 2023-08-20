@@ -59,7 +59,7 @@ namespace ISOGES_PM_API.Controllers
                             EmpleadoAsignado = item.EmpleadoAsignado,
                             FechaInicio = item.FechaInicio,
                             FechaLimite = item.FechaLimite,
-                            Estado = item.Estado,
+                            Estado = (bool)item.Estado,
 
                             NombreProyecto = item.NombreProyecto,
                             DescripcionProyecto = item.DescripcionProyecto,
@@ -97,7 +97,7 @@ namespace ISOGES_PM_API.Controllers
 
                 if (datos != null)
                 {
-                    bool estadoActual = datos.Estado;
+                    bool estadoActual = (bool)datos.Estado;
 
                     datos.Estado = (estadoActual == true ? false : true);
                     return bd.SaveChanges();

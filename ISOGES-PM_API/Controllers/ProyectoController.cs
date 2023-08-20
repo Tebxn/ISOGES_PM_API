@@ -162,6 +162,35 @@ namespace ISOGES_PM_API.Controllers
                 return 0;
             }
         }
+        [HttpGet]
+        [Route("api/ConsultarEstadosProyecto")]
+        public List<Estado_ProyectoEnt> ConsultarEstadosProyecto()
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from x in bd.Estado_Proyecto
+                             select x).ToList();
+
+
+                if (datos.Count > 0)
+                {
+                    var resp = new List<Estado_ProyectoEnt>();
+                    foreach (var item in datos)
+                    {
+                        resp.Add(new Estado_ProyectoEnt
+                        {
+                            IdEstadoProyecto = item.IdEstadoProyecto,
+                            NombreEstado = item.NombreEstado,
+                        });
+                    }
+                    return resp;
+                }
+                else
+                {
+                    return new List<Estado_ProyectoEnt>();
+                }
+            }
+        }
 
     }
 }
