@@ -285,5 +285,29 @@ namespace ISOGES_PM_API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/CrearRequerimientoPorProyecto")]
+        public int CrearRequerimientoPorProyecto(Requerimiento_ProyectoEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+
+
+                Requerimiento_Proyecto tabla = new Requerimiento_Proyecto();
+                tabla.IdProyecto = entidad.IdProyecto;
+                tabla.IdRequerimiento = entidad.IdRequerimiento;
+                tabla.EmpleadoAsignado = entidad.EmpleadoAsignado;
+                tabla.Estado = entidad.Estado;
+                tabla.FechaInicio = entidad.FechaInicio;
+                tabla.FechaLimite = entidad.FechaLimite;
+
+                bd.Requerimiento_Proyecto.Add(tabla);
+
+
+                return bd.SaveChanges();
+            }
+        }
+
+
     }
 }
