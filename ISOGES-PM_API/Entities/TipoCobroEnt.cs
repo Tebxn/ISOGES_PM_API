@@ -8,8 +8,8 @@ namespace ISOGES_PM_API.Entities
 {
     public class TipoCobroResponse : Response
     {
-        public CobroEnt ObjectSingle { get; set; } = new CobroEnt();
-        public List<CobroEnt> ObjectList { get; set; } = new List<CobroEnt>();
+        public TipoCobroEnt ObjectSingle { get; set; } = new TipoCobroEnt();
+        public List<TipoCobroEnt> ObjectList { get; set; } = new List<TipoCobroEnt>();
     }
 
     public class TipoCobroEnt
