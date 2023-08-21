@@ -25,11 +25,11 @@ namespace ISOGES_PM_API.Models
         public System.DateTime Fecha { get; set; }
         public int IdEstadoCobro { get; set; }
         public double Monto { get; set; }
-        public Nullable<long> IdProyecto { get; set; }
+        public long IdProyecto { get; set; }
     
         public virtual Estado_Cobro Estado_Cobro { get; set; }
-        public virtual Proyecto Proyecto { get; set; }
         public virtual TipoCobro TipoCobro1 { get; set; }
+        public virtual Proyecto Proyecto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proyectos_Cobros> Proyectos_Cobros { get; set; }
     }

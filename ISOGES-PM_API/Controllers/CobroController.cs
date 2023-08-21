@@ -59,6 +59,50 @@ namespace ISOGES_PM_API.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        [Route("api/CrearCobro")]
+        public int CrearCobro(CobroEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+
+
+                Cobro tabla = new Cobro();
+                tabla.TipoCobro = entidad.TipoCobro;
+                tabla.Fecha = entidad.Fecha;
+                tabla.IdEstadoCobro = entidad.IdEstadoCobro;
+                tabla.Monto = entidad.Monto;
+                tabla.IdProyecto = entidad.IdProyecto;
+                bd.Cobro.Add(tabla);
+
+
+                return bd.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/EliminarCobro")]
+        public int EliminarCobro(int idCobro)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = bd.Cobro.FirstOrDefault(x => x.IdCobro == idCobro);
+
+                if (datos != null)
+                {
+                    bd.Cobro.Remove(datos);
+                    return bd.SaveChanges();
+                }
+
+                return 0;
+            }
+        }
+
+
+        
+        
+
     }
 }
 
