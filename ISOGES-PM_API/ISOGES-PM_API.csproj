@@ -207,6 +207,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\EstadoCobroController.cs" />
     <Compile Include="Controllers\TipoCobroController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\CobroController.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Controllers\Requerimiento_ProyectoController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Entities\ChartEnt.cs" />
+    <Compile Include="Entities\EstadoCobroEnt.cs" />
     <Compile Include="Entities\TipoCobroEnt.cs" />
     <Compile Include="Entities\CorreoEnt.cs" />
     <Compile Include="Entities\ClienteEnt.cs" />
