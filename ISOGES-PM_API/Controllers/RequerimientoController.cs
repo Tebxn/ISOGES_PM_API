@@ -153,7 +153,26 @@ namespace ISOGES_PM_API.Controllers
                 return 0;
             }
         }
+        [HttpPost]
+        [Route("api/NuevoTask")]
+        public int NuevoTask(Requerimiento_ProyectoEnt entidad)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
 
+                Requerimiento_Proyecto tabla = new Requerimiento_Proyecto();
+                tabla.IdProyecto = entidad.IdProyecto;
+                tabla.IdRequerimiento = entidad.IdRequerimiento;
+                tabla.EmpleadoAsignado = entidad.EmpleadoAsignado;
+                tabla.FechaInicio = entidad.FechaInicio;
+                tabla.FechaLimite = entidad.FechaLimite;
+                tabla.Estado = false;
+
+                bd.Requerimiento_Proyecto.Add(tabla);
+
+                return bd.SaveChanges();
+            }
+        }
 
     }
 }

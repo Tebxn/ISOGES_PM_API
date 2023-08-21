@@ -26,6 +26,7 @@ namespace ISOGES_PM_API.Entities
         public string CodigoRequerimiento { get; set; }
         public string URLRequerimiento { get; set; }
         public string DescripcionRequerimiento { get; set; }
+        public string NombreEmpleadoAsignado { get; set; }
 
     }
 

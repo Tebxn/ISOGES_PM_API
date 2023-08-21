@@ -22,5 +22,6 @@ namespace ISOGES_PM_API.Entities
         public string NombreTipoCobro { get; set; } //TipoCobro
         public string NombreEstado { get; set; } //EstadoCobro
         public string FechaSola { get; set; } //local
+        public string NombreProyecto { get; set; }
     }
 }

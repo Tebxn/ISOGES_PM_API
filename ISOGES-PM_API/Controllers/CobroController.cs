@@ -10,63 +10,56 @@ using System.Web.Http;
 
 namespace ISOGES_PM_API.Controllers
 {
-   /*  public class CobroController : ApiController
+     public class CobroController : ApiController
      {
-         [HttpGet]
-         [Route("api/ConsultarCobrosPorProyecto")]
-         public List<CobroEnt> ConsultarCobros(long q)//q=idProyecto
-         {
-             using (var bd = new ISOGES_PMEntities())
-             {
-                 var datos = (from x in bd.Proyectos_Cobros
-                              join y in bd.Cobro on x.IdCobro equals y.IdCobro
-                              join n in bd.Estado_Cobro on y.IdEstadoCobro equals n.IdEstadoCobro
-                              join z in bd.TipoCobro on y.TipoCobro equals z.IdTipoCobro
-                              where x.IdProyecto == q
-                              select new
-                              {
-                                  y.IdCobro,
-                                  y.TipoCobro,
-                                  z.TipoCobro1,
-                                  y.Fecha,
-                                  y.IdEstadoCobro,
-                                  n.NombreEstado,
-                                  y.Monto
-                              }).ToList();
-
-                 if (datos.Count > 0)
-                 {
-                     var resp = new List<CobroEnt>();
-                     foreach (var item in datos)
-                     {
-                         DateTime dateTime = item.Fecha;
-                         DateTime fechaSola = dateTime.Date;
-                         TimeSpan horaSola = dateTime.TimeOfDay;
-                         string fechaEnviar = fechaSola.ToString("yyyy-MM-dd");
-
-                         resp.Add(new CobroEnt
-                         {
-                             IdCobro = item.IdCobro,
-                             NombreTipoCobro = item.TipoCobro1,
-                             TipoCobro = item.TipoCobro,
-                             Fecha = item.Fecha,
-                             IdEstadoCobro = item.IdEstadoCobro,
-                             NombreEstado = item.NombreEstado,
-                             Monto = item.Monto,
-                             FechaSola = fechaEnviar
-                         });
-                     }
-                     return resp;
-                 }
-                 else
-                 {
-                     return new List<CobroEnt>();
-                 }
-             }
-         }
+        [HttpGet]
+        [Route("api/ListadoCobros")]
+        public List<CobroEnt> ListadoCobros()
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from r in bd.Cobro
+                             join p in bd.Proyecto on r.IdProyecto equals p.IdProyecto
+                             join x in bd.Estado_Cobro on r.IdEstadoCobro equals x.IdEstadoCobro
+                             join e in bd.TipoCobro on r.TipoCobro equals e.IdTipoCobro
+                             select new
+                             {
+                                 r.IdCobro,
+                                 e.TipoCobro1,
+                                 r.Fecha,
+                                 x.NombreEstado,
+                                 r.Monto,
+                                 p.NombreProyecto
 
 
-     }*/
+                             }).ToList();
+
+                if (datos.Count > 0)
+                {
+                    var lista = new List<CobroEnt>();
+                    foreach (var item in datos)
+                    {
+                        lista.Add(new CobroEnt
+                        {
+                            IdCobro = item.IdCobro,
+                            NombreTipoCobro = item.TipoCobro1,
+                            Fecha = item.Fecha,
+                            NombreEstado = item.NombreEstado,
+                            Monto = item.Monto,
+                            NombreProyecto = item.NombreProyecto
+                        });
+                    }
+
+                    return lista;
+                }
+                else
+                {
+
+                    return new List<CobroEnt>();
+                }
+            }
+        }
+    }
 }
 
 

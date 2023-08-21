@@ -191,6 +191,99 @@ namespace ISOGES_PM_API.Controllers
                 }
             }
         }
+        [HttpGet]
+        [Route("api/ConsultaRequerimientosPorProyecto")]
+        public List<Requerimiento_ProyectoEnt> ConsultaRequerimientosPorProyecto(long q)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from r in bd.Requerimiento_Proyecto
+                             join p in bd.Proyecto on r.IdProyecto equals p.IdProyecto
+                             join x in bd.Requerimiento on r.IdRequerimiento equals x.IdRequerimiento
+                             join e in bd.Usuario on r.EmpleadoAsignado equals e.IdUsuario
+                             where r.IdProyecto == q
+                             select new
+                             {
+                                 x.NombreRequerimiento,
+                                 e.Nombre,
+                                 r.FechaInicio,
+                                 r.FechaLimite,
+                                 r.Estado
+
+                             }).ToList();
+
+                if (datos.Count > 0)
+                {
+                    var lista = new List<Requerimiento_ProyectoEnt>();
+                    foreach (var item in datos)
+                    {
+                        lista.Add(new Requerimiento_ProyectoEnt
+                        {
+                            NombreRequerimiento = item.NombreRequerimiento,
+                            NombreEmpleadoAsignado = item.Nombre,
+                            FechaInicio = item.FechaInicio,
+                            FechaLimite = item.FechaLimite,
+                            Estado = (bool)item.Estado
+                        });
+                    }
+
+                    return lista;
+                }
+                else
+                {
+
+                    return new List<Requerimiento_ProyectoEnt>();
+                }
+            }
+        }
+        [HttpGet]
+        [Route("api/ConsultaCobrosProyectoPorId")]
+        public List<CobroEnt> ConsultaCobrosProyectoPorId(long q)
+        {
+            using (var bd = new ISOGES_PMEntities())
+            {
+                var datos = (from r in bd.Cobro
+                             join p in bd.Proyecto on r.IdProyecto equals p.IdProyecto
+                             join x in bd.Estado_Cobro on r.IdEstadoCobro equals x.IdEstadoCobro
+                             join e in bd.TipoCobro on r.TipoCobro equals e.IdTipoCobro
+                             where r.IdProyecto == q
+                             select new
+                             {
+                                 r.IdCobro,
+                                 e.TipoCobro1,
+                                 r.Fecha,
+                                 x.NombreEstado,
+                                 r.Monto,
+                                 p.NombreProyecto
+
+
+                             }).ToList();
+
+                if (datos.Count > 0)
+                {
+                    var lista = new List<CobroEnt>();
+                    foreach (var item in datos)
+                    {
+                        lista.Add(new CobroEnt
+                        {
+                            IdCobro = item.IdCobro,
+                            NombreTipoCobro = item.TipoCobro1,
+                            Fecha = item.Fecha,
+                            NombreEstado = item.NombreEstado,
+                            Monto = item.Monto,
+                            NombreProyecto = item.NombreProyecto
+                        });
+                    }
+
+                    return lista;
+                }
+                else
+                {
+
+                    return new List<CobroEnt>();
+                }
+            }
+        }
 
     }
 }
