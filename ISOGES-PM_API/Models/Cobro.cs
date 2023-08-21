@@ -14,7 +14,7 @@ namespace ISOGES_PM_API.Models
     
     public partial class Cobro
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+       
         public Cobro()
         {
             this.Proyectos_Cobros = new HashSet<Proyectos_Cobros>();
@@ -30,7 +30,7 @@ namespace ISOGES_PM_API.Models
         public virtual Estado_Cobro Estado_Cobro { get; set; }
         public virtual Proyecto Proyecto { get; set; }
         public virtual TipoCobro TipoCobro1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        
         public virtual ICollection<Proyectos_Cobros> Proyectos_Cobros { get; set; }
     }
 }
