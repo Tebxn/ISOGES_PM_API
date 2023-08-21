@@ -8,6 +8,7 @@ namespace ISOGES_PM_API.Entities
 {
     public class Requerimiento_ProyectoEnt
     {
+        public long IdReqProy { get; set; }
         public long IdProyecto { get; set; }
         public long IdRequerimiento { get; set; }
         public long EmpleadoAsignado { get; set; }
