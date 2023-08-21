@@ -18,7 +18,6 @@ namespace ISOGES_PM_API.Models
         public Proyecto()
         {
             this.Cobro = new HashSet<Cobro>();
-            this.Proyectos_Cobros = new HashSet<Proyectos_Cobros>();
             this.Requerimiento_Proyecto = new HashSet<Requerimiento_Proyecto>();
         }
     
@@ -34,8 +33,6 @@ namespace ISOGES_PM_API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cobro> Cobro { get; set; }
         public virtual Estado_Proyecto Estado_Proyecto { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyectos_Cobros> Proyectos_Cobros { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Requerimiento_Proyecto> Requerimiento_Proyecto { get; set; }
     }

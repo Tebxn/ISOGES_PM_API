@@ -14,12 +14,6 @@ namespace ISOGES_PM_API.Models
     
     public partial class Cobro
     {
-       
-        public Cobro()
-        {
-            this.Proyectos_Cobros = new HashSet<Proyectos_Cobros>();
-        }
-    
         public long IdCobro { get; set; }
         public int TipoCobro { get; set; }
         public System.DateTime Fecha { get; set; }
@@ -30,7 +24,5 @@ namespace ISOGES_PM_API.Models
         public virtual Estado_Cobro Estado_Cobro { get; set; }
         public virtual Proyecto Proyecto { get; set; }
         public virtual TipoCobro TipoCobro1 { get; set; }
-        
-        public virtual ICollection<Proyectos_Cobros> Proyectos_Cobros { get; set; }
     }
 }

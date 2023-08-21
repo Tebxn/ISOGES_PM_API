@@ -97,7 +97,7 @@ namespace ISOGES_PM_API.Controllers
 
                 if (datos != null)
                 {
-                    bool estadoActual = datos.Estado;
+                    bool estadoActual = (bool)datos.Estado;
 
                     datos.Estado = (estadoActual == true ? false : true); ;
                     return bd.SaveChanges();

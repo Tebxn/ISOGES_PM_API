@@ -69,11 +69,11 @@ namespace ISOGES_PM_API.Controllers
 
 
                 Cobro tabla = new Cobro();
-                tabla.TipoCobro = entidad.TipoCobro;
+                tabla.TipoCobro = int.Parse(entidad.NombreTipoCobro);
                 tabla.Fecha = entidad.Fecha;
-                tabla.IdEstadoCobro = entidad.IdEstadoCobro;
+                tabla.IdEstadoCobro = int.Parse(entidad.NombreEstado);
                 tabla.Monto = entidad.Monto;
-                tabla.IdProyecto = entidad.IdProyecto;
+                tabla.IdProyecto = int.Parse(entidad.NombreProyecto);
                 bd.Cobro.Add(tabla);
 
 
