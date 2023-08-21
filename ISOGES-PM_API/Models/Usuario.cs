@@ -34,8 +34,8 @@ namespace ISOGES_PM_API.Models
         public Nullable<int> Puesto { get; set; }
     
         public virtual Puesto Puesto1 { get; set; }
-        public virtual TipoUsuario TipoUsuario1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Requerimiento_Proyecto> Requerimiento_Proyecto { get; set; }
+        public virtual TipoUsuario TipoUsuario1 { get; set; }
     }
 }

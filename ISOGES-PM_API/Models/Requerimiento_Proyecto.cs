@@ -14,13 +14,13 @@ namespace ISOGES_PM_API.Models
     
     public partial class Requerimiento_Proyecto
     {
+        public long idReqProy { get; set; }
         public long IdProyecto { get; set; }
         public long IdRequerimiento { get; set; }
         public long EmpleadoAsignado { get; set; }
         public System.DateTime FechaInicio { get; set; }
         public System.DateTime FechaLimite { get; set; }
-        public bool Estado { get; set; }
-        public long idReqProy { get; set; }
+        public Nullable<bool> Estado { get; set; }
     
         public virtual Proyecto Proyecto { get; set; }
         public virtual Requerimiento Requerimiento { get; set; }
